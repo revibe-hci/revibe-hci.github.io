@@ -109,11 +109,21 @@ line reserves its height from the start through a `min-height` on the row. An
 empty row holds no content and would collapse, and the terminal would then grow
 line by line and shove itself around inside a centred row.
 
-The commands are the `STEPS` array in `main.js`, and each one carries the thing
-it produced on the paper. `read crossy-p1.pdf` lands the first two marks,
+The commands are the `STEPS` array in `main.js`, and each one carries what it
+produced. `read crossy-p1.pdf` lands the first two marks on the paper,
 `extract figure 1` lands the box on the figure, `list the controls` lands the
-other two marks, and `build the interface` builds the interface. So the log
-explains the page rather than running beside it. Adding a fifth command means
+other two marks and brings up the window with its four labels, and
+`build the interface` fills that window in. So the log explains the page rather
+than running beside it.
+
+The interface therefore arrives in two beats rather than one. On the third
+command there is a window, a title bar and four labels, and nothing else,
+because a list of controls is genuinely all the agent has at that point. On the
+fourth the boxes, the divider and the preview word follow. Before the third
+command the window is not there at all. An empty frame with nothing in it says
+less than plain panel does, and a hidden window also carries
+`pointer-events: none`, or it would swallow a click meant for what is behind
+it and skip the build. Adding a fifth command means
 adding an entry, but check the width first: the terminal is sized to its longest
 line, and a rule at 1000px holds 10.75rem for exactly that reason.
 
@@ -123,8 +133,7 @@ itself, holds, takes a green tick, and only then does the next one appear. Three
 constants at the top of that code set the pace, `TYPE_MS`, `HOLD_MS` and
 `GAP_MS`. The gap is what makes the log read as one command finishing and
 another starting rather than as four lines arriving together. The whole thing
-takes about six seconds. The last command is the build, so the window, the four
-controls and the preview arrive while that line is still typing.
+takes about six seconds.
 
 **When it starts** is the part worth reading before changing anything. Being on
 screen in a visible tab is not the same as being looked at. A tab opened in the
@@ -141,10 +150,6 @@ anything. Reaching for the demo counts too, and skips to the finished state.
 
 A visitor who asked for reduced motion never waits, because the still frame is
 not an animation and cannot be missed.
-
-The waiting state is why the interface slot is an empty dashed frame rather than
-nothing. The terminal can sit for a while, and a blank third of the panel for
-that whole time reads as a page that failed to load.
 
 After that the demonstration stroke repeats every few seconds, and every third
 stroke the whole thing resets and builds again from the paper, so a visitor who

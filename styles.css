@@ -279,15 +279,18 @@ body { margin: 0; background: var(--page-bg, #FFF); }
   transition: opacity .45s, transform .45s var(--ease),
               background .45s, border-color .45s, box-shadow .45s;
 }
-/* Before the build there is an empty dashed frame rather than nothing at all.
-   The terminal can wait a while for someone to arrive, and a blank third of
-   the panel for that whole time reads as a page that failed to load. */
-.rv-app.pending {
-  opacity: .55; transform: none; background: transparent; box-shadow: none;
-  border-style: dashed; border-color: var(--faint);
-}
-.rv-app.pending .rv-bar { opacity: 0; border-bottom-color: transparent; }
-.rv-bar { display: flex; align-items: center; gap: .45rem; padding: .45rem .7rem; border-bottom: 1px solid var(--rule); transition: opacity .45s, border-color .45s; }
+/* The interface arrives in two beats, tied to the two commands that produce
+   it. On "list the controls" the window and its four labels appear and nothing
+   else, because a list of controls is all the agent has at that point. On
+   "build the interface" the boxes, the divider and the preview follow. Until
+   the first of those the window is not there at all: an empty frame with
+   nothing in it says less than plain panel does. */
+/* not there yet means not clickable either, or an invisible window would take
+   a click meant for the panel behind it and skip the build */
+.rv-app.pending { opacity: 0; transform: translateY(8px) scale(.99); pointer-events: none; }
+.rv-app.bare .rv-sw .box { opacity: 0; }
+.rv-app.bare .rv-preview { opacity: 0; border-left-color: transparent; }
+.rv-bar { display: flex; align-items: center; gap: .45rem; padding: .45rem .7rem; border-bottom: 1px solid var(--rule); }
 .rv-dot { width: .45rem; height: .45rem; border-radius: 50%; background: var(--acc); flex: none; }
 .rv-ttl { font-family: var(--mono); font-size: .625rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .rv-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -302,7 +305,8 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 .rv-sw .box {
   width: 1.1rem; height: 1.1rem; border-radius: 4px; flex: none; margin-left: auto;
   border: 1.5px solid var(--faint); display: grid; place-items: center;
-  transition: background .18s, border-color .18s;
+  /* toggling stays instant; only the arrival fades */
+  transition: opacity .32s, background .18s, border-color .18s;
 }
 .rv-sw[aria-checked="true"] .box { background: var(--acc); border-color: var(--acc); }
 .rv-sw .box svg { width: .72rem; height: .72rem; opacity: 0; stroke: var(--on-acc); }
@@ -311,9 +315,8 @@ body { margin: 0; background: var(--page-bg, #FFF); }
   border-left: 1px solid var(--rule); padding: .8rem 1rem;
   display: grid; align-content: center; justify-items: center; text-align: center;
   gap: .5rem; min-height: 8.5rem;
-  opacity: 1; transition: opacity .4s;
+  opacity: 1; transition: opacity .4s, border-color .4s;
 }
-.rv-preview.pending { opacity: 0; }
 .rv-word { font-family: var(--display); font-weight: 400; font-size: 1.7rem; letter-spacing: -.02em; line-height: 1.1; }
 .rv-word.b { font-weight: 700; }
 .rv-word.i { font-style: italic; }

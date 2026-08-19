@@ -78,7 +78,6 @@
     var figbox = document.querySelector(".rv-figbox");
     var statusEl = document.getElementById("rv-status");
     var word = document.getElementById("rv-word");
-    var preview = document.querySelector(".rv-preview");
     if (!app || !wrapControls || !ink) return;
 
     /* build the controls */
@@ -108,7 +107,7 @@
     var STEPS = [
       { cmd: "read crossy-p1.pdf",  runs: function () { markAt(260, 0); markAt(560, 1); } },
       { cmd: "extract figure 1",    runs: function () { at(300, function () { figbox.classList.add("on"); }); } },
-      { cmd: "list the controls",   runs: function () { markAt(260, 2); markAt(560, 3); } },
+      { cmd: "list the controls",   runs: function () { markAt(260, 2); markAt(560, 3); listControls(); } },
       { cmd: "build the interface", runs: function () { buildApp(); } }
     ];
     function markAt(ms, i) { at(ms, function () { marks[i].classList.add("on"); }); }
@@ -308,8 +307,7 @@
       steps.forEach(function (s) { s.tx.textContent = s.cmd; s.el.className = "on done"; });
       runLine.tx.textContent = RUNNING;
       runLine.el.className = "on run";
-      app.classList.remove("pending");
-      preview.classList.remove("pending");
+      app.className = "rv-app";
       switches.forEach(function (s) { s.el.classList.remove("pending"); });
     }
     function finish() {
@@ -344,8 +342,7 @@
       sweep.classList.remove("run");
       marks.forEach(function (m) { m.classList.remove("on"); });
       figbox.classList.remove("on");
-      app.classList.add("pending");
-      preview.classList.add("pending");
+      app.className = "rv-app pending";
       switches.forEach(function (s) { s.el.classList.add("pending"); });
       steps.forEach(function (s) { s.tx.textContent = ""; s.el.className = ""; });
       runLine.tx.textContent = ""; runLine.el.className = "";
@@ -396,13 +393,19 @@
         });
       });
     }
-    function buildApp() {
-      at(140, function () { app.classList.remove("pending"); });
+    /* listing the controls produces a window and four labels, and nothing else,
+       because at that point a list of controls is all there is */
+    function listControls() {
+      at(140, function () { app.className = "rv-app bare"; });
       switches.forEach(function (s, i) {
-        at(300 + i * 150, function () { s.el.classList.remove("pending"); });
+        at(320 + i * 150, function () { s.el.classList.remove("pending"); });
       });
-      at(300 + switches.length * 150 + 100, function () { preview.classList.remove("pending"); });
-      at(300 + switches.length * 150 + 520, finish);
+    }
+    /* building it fills the window in: the boxes, then the divider and the
+       preview word beside them */
+    function buildApp() {
+      at(220, function () { app.className = "rv-app"; });
+      at(900, finish);
     }
 
     window.addEventListener("resize", function () {
