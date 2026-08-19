@@ -161,10 +161,10 @@ body { margin: 0; background: var(--page-bg, #FFF); }
   /* the paper, what the agent did to it, and the thing it became */
   display: grid;
   grid-template-columns: minmax(0, 13rem) minmax(0, 11rem) minmax(0, 1fr);
-  gap: clamp(.9rem, 2.2vw, 1.6rem); padding: clamp(1rem, 2.4vw, 1.6rem);
+  column-gap: clamp(.9rem, 2.2vw, 1.6rem); row-gap: .9rem;
+  padding: clamp(1rem, 2.4vw, 1.6rem);
   align-items: center;
 }
-.rv-left { display: grid; gap: .6rem; justify-items: start; }
 .rv-paper {
   position: relative; margin: 0; width: min(12.5rem, 100%); border-radius: 3px;
   overflow: hidden; border: 1px solid var(--rule); background: var(--surface);
@@ -197,7 +197,13 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 }
 .rv-figbox.on { opacity: .85; }
 
-.rv-cap { font-family: var(--ui); font-size: .75rem; line-height: 1.4; color: var(--muted); max-width: 26ch; }
+/* The caption is a row of its own under all three columns rather than a note
+   stuck beside the paper. It describes the panel, not the page image, and it
+   fits on one line at any width worth having. */
+.rv-cap {
+  grid-column: 1 / -1; font-family: var(--ui); font-size: .75rem;
+  line-height: 1.4; color: var(--muted);
+}
 /* the paper's own title is the link to it, so it carries an underline. Every
    other paper name on the page stays plain until hover, but this one is the
    only route to the source and has to look like one. */
@@ -337,9 +343,8 @@ body { margin: 0; background: var(--page-bg, #FFF); }
   .rv-app { grid-column: 1 / -1; }
 }
 @media (max-width: 520px) {
-  .visual { grid-template-columns: 1fr; gap: 1rem; }
-  .rv-left { grid-template-columns: 8.5rem minmax(0, 1fr); align-items: end; gap: .5rem 1rem; }
-  .rv-cap { align-self: end; max-width: none; }
+  .visual { grid-template-columns: 1fr; row-gap: .9rem; }
+  .rv-paper { width: min(11rem, 100%); justify-self: center; }
 }
 @media (max-width: 460px) {
   .rv-body { grid-template-columns: 1fr; }

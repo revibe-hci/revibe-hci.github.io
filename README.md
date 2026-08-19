@@ -95,6 +95,10 @@ The three columns are the whole point of the arrangement. A page, the work, and
 the result, in the order they happened. Keep them in that order and side by side
 as long as the width allows, which is what the media queries do.
 
+The caption is a fourth row spanning all three columns, not a note beside the
+paper. It describes the panel rather than the page image, and on its own row it
+stays on one line instead of breaking into two in a narrow column.
+
 **The terminal** keeps its own dark palette rather than reading page tokens,
 because a terminal that turns white in one of the two styles stops being a
 terminal. The colours are Studio's dark band, one step darker, so the two agree.
