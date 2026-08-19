@@ -81,19 +81,32 @@ the rules before adding an eleventh.
 
 ## The hero visual
 
-`#hero-visual` in `index.html` holds the paper page, and `main.js` builds the
-rest: the running reimplementation, the origin sequence and the stroke.
+`#hero-visual` in `index.html` holds the paper page and the empty agent panel,
+and `main.js` builds the rest: the log lines, the running reimplementation, the
+origin sequence and the stroke.
 
-**What it shows.** On the left is the real first page of CrossY, a UIST 2004
-paper by Apitz and Guimbretiere. On the right is that paper's technique,
-rebuilt: draw one stroke down the column of controls and every control the line
-crosses is set. The preview word changes as they change.
+**What it shows,** in three columns, left to right. The real first page of
+CrossY, a UIST 2004 paper by Apitz and Guimbretiere. Then what the agent did to
+it, as a short log. Then that paper's technique, rebuilt: draw one stroke down
+the column of controls and every control the line crosses is set, and the
+preview word changes as they change.
+
+The three columns are the whole point of the arrangement. A page, the work, and
+the result, in the order they happened. Keep them in that order and side by side
+as long as the width allows, which is what the media queries do.
 
 **The origin sequence** starts when the panel is on screen in a visible tab, and
 takes about five seconds. Most of that is the paper: it straightens, a reading
-band crosses it, four marks land on the text and a box lands on the figure, while
-the status line types its way through reading, extracting, listing and building.
-Only then do the window, the four controls and the preview appear, one at a time.
+band crosses it, four marks land on the text and a box lands on the figure. The
+agent log fills in beside it, one line at a time, each line typing and then
+taking a tick. The last line is the build itself, so the window, the four
+controls and the preview arrive while that line is still typing. `revibe
+running` appears at the foot of the agent panel when it is done.
+
+The log lines are the `STEPS` array in `main.js`. They read as commands rather
+than as prose because that is what an agent leaves behind. Adding a fifth line
+means adding a string, but check the width first: the agent column is sized to
+the longest line, and a rule at 1000px holds 10.75rem for exactly that reason.
 
 After that the demonstration stroke repeats every few seconds, and every third
 stroke the whole thing resets and builds again from the paper, so a visitor who
@@ -102,10 +115,22 @@ mid-build finishes the build at once rather than making you wait.
 
 **Editing it.** The controls are the `CONTROLS` array in `main.js`, and each one
 names a class that `styles.css` applies to the preview word. The sequence timings
-are the `at(...)` calls in `play()`, in milliseconds. To use a different paper,
-replace `assets/paper/crossy-p1.jpg`, its `alt` text and the caption, and adjust
-the two `.rv-mark` positions in `styles.css`, which are percentages of the page
-image.
+are the `at(...)` calls in `play()`, in milliseconds. The demonstration stroke
+takes `GHOST_MS`.
+
+**The marks on the paper** are percentages of the page image, and they were
+measured rather than guessed. An earlier set was placed by eye and sat wrong:
+the figure box was twelve points of height too high, over the author addresses
+instead of the figure, and each text mark cut through the middle of three lines.
+The measurements for `crossy-p1.jpg` are in a comment above the rules. The two
+text columns are x 8.8% to 48.0% and x 52.1% to 90.9%, a line is 1.1% tall on a
+1.5% pitch, and the figure occupies 51.8%, 31.8%, 39.1% by 21.6%.
+
+To use a different paper, replace `assets/paper/crossy-p1.jpg`, its `alt` text
+and the caption, then measure the new page the same way. Threshold the image at
+about 190, project the dark pixels down each column to find the gutter, then
+project across to find the line bands. Put each mark on a line boundary and make
+it two lines tall, so none of them cuts through text.
 
 **Dragging.** `.rv-app` sets `user-select: none` and `touch-action: none`, which
 is what stops a stroke from selecting the labels or scrolling the page on a

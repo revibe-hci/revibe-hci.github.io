@@ -158,13 +158,15 @@ body { margin: 0; background: var(--page-bg, #FFF); }
   position: relative; margin-top: clamp(1.2rem, 3vw, 1.9rem);
   border-radius: var(--r); overflow: hidden;
   background: color-mix(in srgb, var(--tint) 74%, transparent);
-  display: grid; grid-template-columns: minmax(0, 12.5rem) minmax(0, 1fr);
-  gap: clamp(1rem, 3vw, 2.2rem); padding: clamp(1rem, 2.4vw, 1.6rem);
+  /* the paper, what the agent did to it, and the thing it became */
+  display: grid;
+  grid-template-columns: minmax(0, 13rem) minmax(0, 11rem) minmax(0, 1fr);
+  gap: clamp(.9rem, 2.2vw, 1.6rem); padding: clamp(1rem, 2.4vw, 1.6rem);
   align-items: center;
 }
-.rv-left { display: grid; gap: .55rem; justify-items: start; }
+.rv-left { display: grid; gap: .6rem; justify-items: start; }
 .rv-paper {
-  position: relative; margin: 0; width: min(8.5rem, 100%); border-radius: 3px;
+  position: relative; margin: 0; width: min(12.5rem, 100%); border-radius: 3px;
   overflow: hidden; border: 1px solid var(--rule); background: var(--surface);
   box-shadow: 0 8px 20px -16px rgba(0, 0, 0, .55);
   transform: rotate(-2.5deg) translateY(3px);
@@ -180,23 +182,65 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 /* the marks the reading pass leaves behind, as percentages of the page image */
 .rv-mark { position: absolute; border-radius: 2px; opacity: 0; transition: opacity .3s; background: color-mix(in srgb, var(--acc) 26%, transparent); }
 .rv-mark.on { opacity: 1; }
-.rv-mark.m1 { left: 8%; top: 30.5%; width: 37%; height: 4.2%; }
-.rv-mark.m2 { left: 8%; top: 38.2%; width: 31%; height: 4.2%; }
-.rv-mark.m3 { left: 53%; top: 62.5%; width: 39%; height: 4.2%; }
-.rv-mark.m4 { left: 53%; top: 70.2%; width: 33%; height: 4.2%; }
+/* Positions come from measuring the ink in crossy-p1.jpg, not from eye. The two
+   text columns are x 8.8% to 48.0% and x 52.1% to 90.9%, lines are 1.1% tall on
+   a 1.5% pitch, and the figure occupies 51.8%, 31.8%, 39.1% by 21.6%. Each mark
+   is two lines tall and starts on a line, so none of them cuts through text. */
+.rv-mark.m1 { left: 8.7%; top: 33.0%; width: 38%; height: 2.8%; }
+.rv-mark.m2 { left: 8.7%; top: 38.9%; width: 32%; height: 2.8%; }
+.rv-mark.m3 { left: 51.9%; top: 60.4%; width: 37%; height: 2.8%; }
+.rv-mark.m4 { left: 51.9%; top: 68.2%; width: 31%; height: 2.8%; }
 .rv-figbox {
-  position: absolute; left: 51%; top: 20%; width: 43%; height: 21%;
+  position: absolute; left: 51.6%; top: 31.5%; width: 39.6%; height: 22.2%;
   border: 1.5px solid var(--acc); border-radius: 3px; opacity: 0;
   transition: opacity .35s; background: color-mix(in srgb, var(--acc) 8%, transparent);
 }
 .rv-figbox.on { opacity: .85; }
 
-.rv-status { font-family: var(--mono); font-size: .6875rem; letter-spacing: .03em; color: var(--muted); min-height: 1.3em; }
-.rv-status:after { content: "\258C"; opacity: 0; }
-.rv-status.busy:after { opacity: 1; animation: rvblink 1s steps(1) infinite; }
+.rv-cap { font-family: var(--ui); font-size: .75rem; line-height: 1.4; color: var(--muted); max-width: 26ch; }
+/* the paper's own title is the link to it, so it carries an underline. Every
+   other paper name on the page stays plain until hover, but this one is the
+   only route to the source and has to look like one. */
+.page .rv-cap .rv-src {
+  color: var(--ink); font-weight: var(--w);
+  text-decoration: underline; text-underline-offset: .16em;
+  text-decoration-thickness: 1px; text-decoration-color: var(--faint);
+}
+.page .rv-cap .rv-src:hover { text-decoration-color: var(--acc); color: var(--acc); }
+
+/* ---------- the agent column: what was done to the paper ---------- */
+.rv-agent {
+  align-self: stretch; border-radius: 10px; overflow: hidden;
+  border: 1px solid var(--rule); background: var(--surface);
+  box-shadow: 0 14px 34px -26px rgba(0, 0, 0, .5);
+  display: grid; grid-template-rows: auto 1fr auto;
+}
+.rv-log {
+  list-style: none; margin: 0; padding: .65rem .7rem .3rem;
+  display: grid; align-content: start; gap: .34rem;
+}
+.rv-log li {
+  display: grid; grid-template-columns: .5rem minmax(0, max-content) .7rem;
+  justify-content: start; gap: .32rem; align-items: baseline;
+  font-family: var(--mono); font-size: .625rem; line-height: 1.4;
+  color: var(--muted); opacity: 0; transition: opacity .25s;
+}
+.rv-log li.on { opacity: 1; }
+.rv-log li.done { color: var(--ink); }
+.rv-log .mk { color: var(--acc); }
+.rv-log .tx { overflow-wrap: anywhere; }
+.rv-log .ok { opacity: 0; transition: opacity .2s; }
+.rv-log .ok svg { width: .62rem; height: .62rem; display: block; stroke: var(--acc); }
+.rv-log li.done .ok { opacity: 1; }
+.rv-log li.busy .tx:after { content: "\258C"; animation: rvblink 1s steps(1) infinite; }
 @keyframes rvblink { 50% { opacity: 0; } }
-.rv-cap { font-family: var(--ui); font-size: .75rem; line-height: 1.4; color: var(--muted); max-width: 24ch; }
-.rv-cap b { color: var(--ink); font-weight: var(--w); }
+.rv-status {
+  font-family: var(--mono); font-size: .625rem; letter-spacing: .05em;
+  text-transform: uppercase; color: var(--acc);
+  padding: .5rem .7rem .55rem; border-top: 1px solid var(--rule);
+  opacity: 0; transition: opacity .35s;
+}
+.rv-status.on { opacity: 1; }
 
 .rv-app {
   position: relative; border-radius: 10px; overflow: hidden; cursor: crosshair;
@@ -244,12 +288,29 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 .rv-stroke { fill: none; stroke: var(--acc); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
 .rv-stroke.ghost { opacity: .5; }
 
-@media (max-width: 760px) {
+/* The three columns hold as far down as they can by shrinking, because the row
+   only reads as paper, work, result while all three are side by side. Below
+   that the interface drops to its own line and the paper keeps the agent
+   beside it, since a page and the record of what was read off it belong
+   together. Last of all the paper moves above its own caption. */
+@media (max-width: 1000px) {
+  /* the longest log line is 19 monospace characters, so the agent column keeps
+     10.75rem whatever else gives way, or every line wraps */
+  .visual {
+    grid-template-columns: minmax(0, 8.5rem) minmax(0, 10.75rem) minmax(0, 1fr);
+    gap: clamp(.8rem, 1.8vw, 1.2rem);
+  }
+  .rv-paper { width: min(8.5rem, 100%); }
+}
+@media (max-width: 700px) {
+  .visual { grid-template-columns: minmax(0, 9.5rem) minmax(0, 1fr); }
+  .rv-app { grid-column: 1 / -1; }
+}
+@media (max-width: 520px) {
   .visual { grid-template-columns: 1fr; gap: 1rem; }
   .rv-left { grid-template-columns: 8.5rem minmax(0, 1fr); align-items: end; gap: .5rem 1rem; }
-  .rv-paper { grid-row: span 2; }
-  .rv-status { align-self: end; }
-  .rv-cap { align-self: start; max-width: none; }
+  .rv-cap { align-self: end; max-width: none; }
+  .rv-agent { min-height: 8.5rem; }
 }
 @media (max-width: 460px) {
   .rv-body { grid-template-columns: 1fr; }

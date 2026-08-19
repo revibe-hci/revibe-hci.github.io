@@ -61,6 +61,10 @@
      again on request. */
 
   var CONTROLS = [["Bold", "b"], ["Italic", "i"], ["Underline", "u"], ["Larger", "g"]];
+  /* what the agent reports doing, in the order it does it. The last one is the
+     build itself, so the interface appears while that line is still typing. */
+  var STEPS = ["read crossy-p1.pdf", "extract figure 1",
+               "list the controls", "build the interface"];
   var CHECK = '<svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 4.8 8.5 9.5 3.5"/></svg>';
 
   (function heroVisual() {
@@ -94,6 +98,17 @@
       });
       wrapControls.appendChild(b);
       return { el: b, cls: c[1] };
+    });
+
+    /* the agent log */
+    var logEl = document.getElementById("rv-log");
+    var steps = STEPS.map(function (text) {
+      var li = document.createElement("li");
+      li.innerHTML = '<span class="mk" aria-hidden="true">&rsaquo;</span>' +
+                     '<span class="tx"></span>' +
+                     '<span class="ok" aria-hidden="true">' + CHECK + "</span>";
+      logEl.appendChild(li);
+      return { el: li, tx: li.querySelector(".tx"), text: text };
     });
 
     function setControl(el, on) {
@@ -249,13 +264,13 @@
     }
 
     /* the origin sequence */
+    /* The caller owns the busy class, because the cursor belongs to the log row
+       rather than to the span the characters land in. */
     function typeInto(el, text, then) {
-      el.classList.add("busy");
       var i = 0;
       (function next() {
         el.textContent = text.slice(0, ++i);
         if (i < text.length) { seqTimers.push(setTimeout(next, 26)); return; }
-        el.classList.remove("busy");
         if (then) seqTimers.push(setTimeout(then, 260));
       })();
     }
@@ -266,14 +281,18 @@
       sweep.classList.add("run");
       marks.forEach(function (m) { m.classList.add("on"); });
       figbox.classList.add("on");
+      steps.forEach(function (s) {
+        s.tx.textContent = s.text;
+        s.el.className = "on done";
+      });
       app.classList.remove("pending");
       preview.classList.remove("pending");
       switches.forEach(function (s) { s.el.classList.remove("pending"); });
     }
     function finish() {
       done = true;
-      statusEl.classList.remove("busy");
       statusEl.textContent = "revibe running";
+      statusEl.classList.add("on");
       measure();
       scheduleGhost(400);
     }
@@ -300,7 +319,8 @@
       app.classList.add("pending");
       preview.classList.add("pending");
       switches.forEach(function (s) { s.el.classList.add("pending"); });
-      statusEl.classList.remove("busy");
+      steps.forEach(function (s) { s.tx.textContent = ""; s.el.className = ""; });
+      statusEl.classList.remove("on");
       statusEl.textContent = " ";
     }
     function play() {
@@ -309,6 +329,7 @@
         showAll();
         done = true;
         statusEl.textContent = "revibe running";
+        statusEl.classList.add("on");
         measure();
         /* a finished still frame: the stroke already drawn, three controls set */
         var trail = ghostPath();
@@ -327,21 +348,26 @@
       at(1750, function () { figbox.classList.add("on"); });
       at(2350, function () { marks[2].classList.add("on"); });
       at(2650, function () { marks[3].classList.add("on"); });
-      at(700, function () {
-        typeInto(statusEl, "reading the paper", function () {
-          typeInto(statusEl, "extracting the figures", function () {
-            typeInto(statusEl, "listing the controls", function () {
-              typeInto(statusEl, "building the interface");
-              at(80, function () { app.classList.remove("pending"); });
-              switches.forEach(function (s, i) {
-                at(220 + i * 140, function () { s.el.classList.remove("pending"); });
-              });
-              at(220 + switches.length * 140 + 80, function () { preview.classList.remove("pending"); });
-              at(220 + switches.length * 140 + 420, finish);
-            });
-          });
-        });
+      at(700, function () { runStep(0); });
+    }
+    /* One log line at a time. The last line is the build, so the window, the
+       controls and the preview arrive while that line is still being typed. */
+    function runStep(i) {
+      var s = steps[i];
+      s.el.className = "on busy";
+      if (i === steps.length - 1) buildApp();
+      typeInto(s.tx, s.text, function () {
+        s.el.className = "on done";
+        if (i + 1 < steps.length) at(240, function () { runStep(i + 1); });
       });
+    }
+    function buildApp() {
+      at(80, function () { app.classList.remove("pending"); });
+      switches.forEach(function (s, i) {
+        at(220 + i * 140, function () { s.el.classList.remove("pending"); });
+      });
+      at(220 + switches.length * 140 + 80, function () { preview.classList.remove("pending"); });
+      at(220 + switches.length * 140 + 420, finish);
     }
 
     window.addEventListener("resize", function () {
