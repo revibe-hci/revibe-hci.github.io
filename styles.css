@@ -88,9 +88,13 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 /* a full width bed under the facts strip: the field fades into plain page colour
    before it, so that row is always legible whatever the wave is doing */
 .details-bed {
-  position: relative; padding-top: 2rem; margin-top: -2rem;
+  position: relative; padding-top: 4rem; margin-top: -4rem;
   background: linear-gradient(180deg, transparent 0%,
-    color-mix(in srgb, var(--ground) 72%, transparent) 32%, var(--ground) 70%);
+    color-mix(in srgb, var(--ground) 10%, transparent) 20%,
+    color-mix(in srgb, var(--ground) 30%, transparent) 40%,
+    color-mix(in srgb, var(--ground) 58%, transparent) 58%,
+    color-mix(in srgb, var(--ground) 82%, transparent) 74%,
+    var(--ground) 90%);
 }
 /* the copy keeps a measured column, which leaves the right of the hero to the
    field. Events pass through the container so field glyphs there stay

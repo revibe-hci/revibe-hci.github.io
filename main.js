@@ -114,6 +114,7 @@
     path.setAttribute("class", "rv-stroke");
     ink.appendChild(path);
 
+    var GHOST_MS = 1150;  /* how long the demonstration stroke takes to draw */
     var pts = [], boxes = [], drawing = false, gesture = null, onScreen = false;
     var ghostRaf = null, ghostOn = false, ghostRuns = 0;
     var idleTimer = null, seqTimers = [], done = false;
@@ -212,12 +213,19 @@
       ghostOn = true;
       pts = [trail[0]];
       path.setAttribute("class", "rv-stroke ghost");
-      (function step() {
-        if (!ghostOn || document.hidden || !onScreen) { ghostRaf = null; return; }
-        crossAt(trail[i]);
-        pts.push(trail[i]);
+      /* Elapsed time drives the stroke, not the frame count. Drawing one point
+         per frame made the stroke run at whatever the screen refreshes at, so
+         it took 1.2 seconds on a 60Hz display and 0.6 on a 120Hz one. */
+      var t0 = null;
+      function step(ts) {
+        if (!ghostOn || document.hidden || !onScreen) {
+          ghostRaf = null; pts = []; render(); return;
+        }
+        if (t0 === null) t0 = ts;
+        var target = Math.round(Math.min(1, (ts - t0) / GHOST_MS) * (trail.length - 1));
+        for (; i <= target; i++) { crossAt(trail[i]); pts.push(trail[i]); }
         render();
-        if (++i < trail.length) { ghostRaf = requestAnimationFrame(step); return; }
+        if (i < trail.length) { ghostRaf = requestAnimationFrame(step); return; }
         ghostRaf = null;
         setTimeout(function () {
           if (!ghostOn) return;
@@ -226,7 +234,8 @@
           if (++ghostRuns >= 3) { ghostRuns = 0; seqTimers.push(setTimeout(play, 2600)); return; }
           scheduleGhost(6500);
         }, 1500);
-      })();
+      }
+      ghostRaf = requestAnimationFrame(step);
     }
     function stopGhost() {
       ghostOn = false;
@@ -244,7 +253,6 @@
       el.classList.add("busy");
       var i = 0;
       (function next() {
-        if (document.hidden) { seqTimers.push(setTimeout(next, 250)); return; }
         el.textContent = text.slice(0, ++i);
         if (i < text.length) { seqTimers.push(setTimeout(next, 26)); return; }
         el.classList.remove("busy");
@@ -345,22 +353,36 @@
     /* the sequence waits for someone to actually be looking: on screen, and in
        a visible tab. Focus and pageshow are the safety net if a
        visibilitychange goes missing, as it can inside a frame. */
-    var started = false;
-    function tryStart() {
-      if (started || !onScreen || document.hidden) return;
-      started = true;
-      play();
+    var started = false, stalled = false;
+    /* Whenever the panel is being looked at again, work out what it should be
+       doing: start the build, start it over, or go back to the demonstration
+       stroke. Restarting is only for a build the browser actually broke, not
+       for every time the window takes focus, or a build would never finish. */
+    function resume() {
+      if (document.hidden || !onScreen) return;
+      if (!started) { started = true; play(); return; }
+      if (!done) {
+        if (stalled) { stalled = false; play(); }
+        return;
+      }
+      if (!REDUCED && !drawing) scheduleGhost(1500);
     }
     new IntersectionObserver(function (entries) {
       onScreen = entries[0].isIntersecting;
       if (!onScreen) { stopGhost(); return; }
-      tryStart();
-      if (done && !drawing) scheduleGhost(1800);
+      resume();
     }, { threshold: 0.2 }).observe(app);
+    /* A hidden tab has its timers throttled, so a build caught partway used to
+       come back with the status line frozen mid word and the interface never
+       arriving. There is nothing sensible to carry on from, so it is marked
+       and starts again from the paper, which is where a late arrival belongs. */
     function onVisible() {
-      if (document.hidden) { stopGhost(); return; }
-      tryStart();
-      if (done && !REDUCED && !drawing && onScreen) scheduleGhost(1500);
+      if (document.hidden) {
+        stopGhost();
+        if (started && !done) stalled = true;
+        return;
+      }
+      resume();
     }
     document.addEventListener("visibilitychange", onVisible);
     window.addEventListener("focus", onVisible);
