@@ -95,18 +95,52 @@ The three columns are the whole point of the arrangement. A page, the work, and
 the result, in the order they happened. Keep them in that order and side by side
 as long as the width allows, which is what the media queries do.
 
-**The origin sequence** starts when the panel is on screen in a visible tab, and
-takes about five seconds. Most of that is the paper: it straightens, a reading
-band crosses it, four marks land on the text and a box lands on the figure. The
-agent log fills in beside it, one line at a time, each line typing and then
-taking a tick. The last line is the build itself, so the window, the four
-controls and the preview arrive while that line is still typing. `revibe
-running` appears at the foot of the agent panel when it is done.
+**The terminal** keeps its own dark palette rather than reading page tokens,
+because a terminal that turns white in one of the two styles stops being a
+terminal. The colours are Studio's dark band, one step darker, so the two agree.
 
-The log lines are the `STEPS` array in `main.js`. They read as commands rather
-than as prose because that is what an agent leaves behind. Adding a fifth line
-means adding a string, but check the width first: the agent column is sized to
-the longest line, and a rule at 1000px holds 10.75rem for exactly that reason.
+Six lines: the request, four commands, and `revibe running`, which never
+completes and keeps a turning spinner for as long as the page is open. Every
+line reserves its height from the start through a `min-height` on the row. An
+empty row holds no content and would collapse, and the terminal would then grow
+line by line and shove itself around inside a centred row.
+
+The commands are the `STEPS` array in `main.js`, and each one carries the thing
+it produced on the paper. `read crossy-p1.pdf` lands the first two marks,
+`extract figure 1` lands the box on the figure, `list the controls` lands the
+other two marks, and `build the interface` builds the interface. So the log
+explains the page rather than running beside it. Adding a fifth command means
+adding an entry, but check the width first: the terminal is sized to its longest
+line, and a rule at 1000px holds 10.75rem for exactly that reason.
+
+**The sequence.** The paper straightens and a reading band crosses it. Then the
+request types, then each command in turn: the line appears with a spinner, types
+itself, holds, takes a green tick, and only then does the next one appear. Three
+constants at the top of that code set the pace, `TYPE_MS`, `HOLD_MS` and
+`GAP_MS`. The gap is what makes the log read as one command finishing and
+another starting rather than as four lines arriving together. The whole thing
+takes about six seconds. The last command is the build, so the window, the four
+controls and the preview arrive while that line is still typing.
+
+**When it starts** is the part worth reading before changing anything. Being on
+screen in a visible tab is not the same as being looked at. A tab opened in the
+background and read an hour later, or a page left open behind another window,
+would both burn the sequence with nobody there, and the visitor would arrive to
+a finished panel and never learn what it was.
+
+So the terminal waits with an empty prompt and a blinking cursor until a person
+proves they are present. Any real input on the page counts: a pointer moving, a
+key, a wheel, a touch, a scroll. Putting a pointer anywhere on the panel counts
+and starts it at once. Failing both, four unbroken seconds of the panel being on
+screen in a focused window counts, which is there for the reader who never moves
+anything. Reaching for the demo counts too, and skips to the finished state.
+
+A visitor who asked for reduced motion never waits, because the still frame is
+not an animation and cannot be missed.
+
+The waiting state is why the interface slot is an empty dashed frame rather than
+nothing. The terminal can sit for a while, and a blank third of the panel for
+that whole time reads as a page that failed to load.
 
 After that the demonstration stroke repeats every few seconds, and every third
 stroke the whole thing resets and builds again from the paper, so a visitor who

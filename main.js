@@ -61,11 +61,12 @@
      again on request. */
 
   var CONTROLS = [["Bold", "b"], ["Italic", "i"], ["Underline", "u"], ["Larger", "g"]];
-  /* what the agent reports doing, in the order it does it. The last one is the
-     build itself, so the interface appears while that line is still typing. */
-  var STEPS = ["read crossy-p1.pdf", "extract figure 1",
-               "list the controls", "build the interface"];
+  var ASK = "revibe this paper";
+  var RUNNING = "revibe running";
+  var SPIN = '<svg class="sp" viewBox="0 0 12 12" fill="none" stroke-width="1.7" ' +
+             'stroke-linecap="round"><path d="M6 1.3a4.7 4.7 0 1 1-4.7 4.7"/></svg>';
   var CHECK = '<svg viewBox="0 0 12 12" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2 4.8 8.5 9.5 3.5"/></svg>';
+  var OKMARK = CHECK.replace("<svg ", '<svg class="ok" ');
 
   (function heroVisual() {
     var app = document.getElementById("rv-app");
@@ -100,16 +101,31 @@
       return { el: b, cls: c[1] };
     });
 
-    /* the agent log */
-    var logEl = document.getElementById("rv-log");
-    var steps = STEPS.map(function (text) {
+    /* The terminal. Each command lands next to the mark it produced on the
+       paper, so the log explains the page rather than running beside it. The
+       last command is the build, so the interface arrives while it types. */
+    var logEl = document.getElementById("rv-term") && document.getElementById("rv-log");
+    var STEPS = [
+      { cmd: "read crossy-p1.pdf",  runs: function () { markAt(260, 0); markAt(560, 1); } },
+      { cmd: "extract figure 1",    runs: function () { at(300, function () { figbox.classList.add("on"); }); } },
+      { cmd: "list the controls",   runs: function () { markAt(260, 2); markAt(560, 3); } },
+      { cmd: "build the interface", runs: function () { buildApp(); } }
+    ];
+    function markAt(ms, i) { at(ms, function () { marks[i].classList.add("on"); }); }
+
+    function line(kind) {
       var li = document.createElement("li");
-      li.innerHTML = '<span class="mk" aria-hidden="true">&rsaquo;</span>' +
-                     '<span class="tx"></span>' +
-                     '<span class="ok" aria-hidden="true">' + CHECK + "</span>";
+      li.innerHTML = '<span class="mk">' + (kind === "p" ? "" : SPIN + OKMARK) + "</span>" +
+                     '<span class="tx"></span>';
       logEl.appendChild(li);
-      return { el: li, tx: li.querySelector(".tx"), text: text };
+      return { el: li, tx: li.querySelector(".tx") };
+    }
+    var promptLine = line("p");
+    promptLine.el.className = "p";
+    var steps = STEPS.map(function (s) {
+      var l = line("s"); l.cmd = s.cmd; l.runs = s.runs; return l;
     });
+    var runLine = line("s");
 
     function setControl(el, on) {
       el.setAttribute("aria-checked", String(on));
@@ -264,14 +280,20 @@
     }
 
     /* the origin sequence */
+    /* Typing speed, how long a finished command sits before it is ticked, and
+       the pause before the next one appears. The pause is what makes the log
+       read as one command finishing and another starting, rather than as four
+       lines arriving together. */
+    var TYPE_MS = 28, HOLD_MS = 320, GAP_MS = 420;
+
     /* The caller owns the busy class, because the cursor belongs to the log row
        rather than to the span the characters land in. */
     function typeInto(el, text, then) {
       var i = 0;
       (function next() {
         el.textContent = text.slice(0, ++i);
-        if (i < text.length) { seqTimers.push(setTimeout(next, 26)); return; }
-        if (then) seqTimers.push(setTimeout(then, 260));
+        if (i < text.length) { seqTimers.push(setTimeout(next, TYPE_MS)); return; }
+        if (then) seqTimers.push(setTimeout(then, HOLD_MS));
       })();
     }
     function at(ms, fn) { seqTimers.push(setTimeout(fn, ms)); }
@@ -281,24 +303,30 @@
       sweep.classList.add("run");
       marks.forEach(function (m) { m.classList.add("on"); });
       figbox.classList.add("on");
-      steps.forEach(function (s) {
-        s.tx.textContent = s.text;
-        s.el.className = "on done";
-      });
+      promptLine.tx.textContent = ASK;
+      promptLine.el.className = "p on";
+      steps.forEach(function (s) { s.tx.textContent = s.cmd; s.el.className = "on done"; });
+      runLine.tx.textContent = RUNNING;
+      runLine.el.className = "on run";
       app.classList.remove("pending");
       preview.classList.remove("pending");
       switches.forEach(function (s) { s.el.classList.remove("pending"); });
     }
     function finish() {
       done = true;
-      statusEl.textContent = "revibe running";
-      statusEl.classList.add("on");
+      runLine.tx.textContent = RUNNING;
+      runLine.el.className = "on run";
       measure();
       scheduleGhost(400);
     }
     /* if the visitor reaches for the demo mid-build, give it to them at once */
     function cancelToFinished() {
       if (done) return;
+      /* reaching for the demo is proof enough that someone is there, and it
+         also counts as having started, or resume would replay it from the top */
+      awake = true;
+      started = true;
+      disarmDwell();
       seqTimers.forEach(clearTimeout);
       seqTimers = [];
       showAll();
@@ -320,16 +348,17 @@
       preview.classList.add("pending");
       switches.forEach(function (s) { s.el.classList.add("pending"); });
       steps.forEach(function (s) { s.tx.textContent = ""; s.el.className = ""; });
-      statusEl.classList.remove("on");
-      statusEl.textContent = " ";
+      runLine.tx.textContent = ""; runLine.el.className = "";
+      /* the terminal waits with an empty prompt and a cursor, which is both
+         what a terminal looks like and an invitation to put a pointer on it */
+      promptLine.tx.textContent = "";
+      promptLine.el.className = "p on waiting";
     }
     function play() {
       reset();
       if (REDUCED) {
         showAll();
         done = true;
-        statusEl.textContent = "revibe running";
-        statusEl.classList.add("on");
         measure();
         /* a finished still frame: the stroke already drawn, three controls set */
         var trail = ghostPath();
@@ -339,35 +368,41 @@
         render();
         return;
       }
-      /* reading the paper takes most of the sequence, because that is the part
-         the workshop is about. The interface then arrives a piece at a time. */
+      /* The paper straightens and is read, then someone asks for it back. Each
+         command then lands with whatever it produced on the page. */
       at(150, function () { paper.classList.add("up"); });
       at(420, function () { sweep.classList.add("run"); });
-      at(1150, function () { marks[0].classList.add("on"); });
-      at(1450, function () { marks[1].classList.add("on"); });
-      at(1750, function () { figbox.classList.add("on"); });
-      at(2350, function () { marks[2].classList.add("on"); });
-      at(2650, function () { marks[3].classList.add("on"); });
-      at(700, function () { runStep(0); });
+      at(620, function () {
+        promptLine.el.className = "p on busy";
+        typeInto(promptLine.tx, ASK, function () {
+          promptLine.el.className = "p on";
+          at(GAP_MS, function () { runStep(0); });
+        });
+      });
     }
-    /* One log line at a time. The last line is the build, so the window, the
-       controls and the preview arrive while that line is still being typed. */
+    /* One command at a time, each starting after the last has been ticked. The
+       last command is the build, so the window, the controls and the preview
+       arrive while that line is still being typed. */
     function runStep(i) {
       var s = steps[i];
       s.el.className = "on busy";
-      if (i === steps.length - 1) buildApp();
-      typeInto(s.tx, s.text, function () {
+      s.runs();
+      typeInto(s.tx, s.cmd, function () {
         s.el.className = "on done";
-        if (i + 1 < steps.length) at(240, function () { runStep(i + 1); });
+        if (i + 1 < steps.length) { at(GAP_MS, function () { runStep(i + 1); }); return; }
+        at(GAP_MS, function () {
+          runLine.tx.textContent = RUNNING;
+          runLine.el.className = "on run";
+        });
       });
     }
     function buildApp() {
-      at(80, function () { app.classList.remove("pending"); });
+      at(140, function () { app.classList.remove("pending"); });
       switches.forEach(function (s, i) {
-        at(220 + i * 140, function () { s.el.classList.remove("pending"); });
+        at(300 + i * 150, function () { s.el.classList.remove("pending"); });
       });
-      at(220 + switches.length * 140 + 80, function () { preview.classList.remove("pending"); });
-      at(220 + switches.length * 140 + 420, finish);
+      at(300 + switches.length * 150 + 100, function () { preview.classList.remove("pending"); });
+      at(300 + switches.length * 150 + 520, finish);
     }
 
     window.addEventListener("resize", function () {
@@ -379,14 +414,48 @@
     /* the sequence waits for someone to actually be looking: on screen, and in
        a visible tab. Focus and pageshow are the safety net if a
        visibilitychange goes missing, as it can inside a frame. */
-    var started = false, stalled = false;
+    var started = false, stalled = false, awake = false, dwell = null;
+
+    /* Being on screen in a visible tab is not the same as being looked at. A
+       tab opened in the background and read an hour later, or a page left open
+       behind another window, would both burn the sequence with nobody there.
+       So the terminal waits with an empty prompt until a person proves they
+       are present: any real input on the page, a pointer put on the panel, or
+       four unbroken seconds of the panel being on screen in a focused window.
+       The last of those is for the reader who never moves anything. */
+    function wake() {
+      if (awake) return;
+      awake = true;
+      resume();
+    }
+    ["pointerdown", "pointermove", "keydown", "wheel", "touchstart", "scroll"]
+      .forEach(function (ev) {
+        window.addEventListener(ev, wake, { passive: true, once: true });
+      });
+    var visual = document.getElementById("hero-visual");
+    if (visual) visual.addEventListener("pointerenter", wake);
+
+    function armDwell() {
+      if (dwell || awake || document.hidden || !onScreen || !document.hasFocus()) return;
+      dwell = setTimeout(function () { dwell = null; wake(); }, 4000);
+    }
+    function disarmDwell() { clearTimeout(dwell); dwell = null; }
+
     /* Whenever the panel is being looked at again, work out what it should be
        doing: start the build, start it over, or go back to the demonstration
        stroke. Restarting is only for a build the browser actually broke, not
        for every time the window takes focus, or a build would never finish. */
     function resume() {
       if (document.hidden || !onScreen) return;
-      if (!started) { started = true; play(); return; }
+      if (!started) {
+        /* the still frame is not an animation and nobody can miss it, so a
+           visitor who asked for reduced motion never waits behind the gate */
+        if (!REDUCED && !awake) { armDwell(); return; }
+        disarmDwell();
+        started = true;
+        play();
+        return;
+      }
       if (!done) {
         if (stalled) { stalled = false; play(); }
         return;
@@ -395,9 +464,9 @@
     }
     new IntersectionObserver(function (entries) {
       onScreen = entries[0].isIntersecting;
-      if (!onScreen) { stopGhost(); return; }
+      if (!onScreen) { stopGhost(); disarmDwell(); return; }
       resume();
-    }, { threshold: 0.2 }).observe(app);
+    }, { threshold: 0.2 }).observe(visual || app);
     /* A hidden tab has its timers throttled, so a build caught partway used to
        come back with the status line frozen mid word and the interface never
        arriving. There is nothing sensible to carry on from, so it is marked
@@ -405,6 +474,7 @@
     function onVisible() {
       if (document.hidden) {
         stopGhost();
+        disarmDwell();
         if (started && !done) stalled = true;
         return;
       }
@@ -413,6 +483,11 @@
     document.addEventListener("visibilitychange", onVisible);
     window.addEventListener("focus", onVisible);
     window.addEventListener("pageshow", onVisible);
+    window.addEventListener("blur", disarmDwell);
+
+    /* the prompt sits waiting from the first paint, not from the first frame
+       of the sequence, so the terminal never looks like an empty box */
+    reset();
   })();
 
   /* ================= the ambient field =================

@@ -208,39 +208,60 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 }
 .page .rv-cap .rv-src:hover { text-decoration-color: var(--acc); color: var(--acc); }
 
-/* ---------- the agent column: what was done to the paper ---------- */
-.rv-agent {
-  align-self: stretch; border-radius: 10px; overflow: hidden;
-  border: 1px solid var(--rule); background: var(--surface);
-  box-shadow: 0 14px 34px -26px rgba(0, 0, 0, .5);
-  display: grid; grid-template-rows: auto 1fr auto;
+/* ---------- the terminal: what the agent was asked, and what it ran ----------
+   It keeps its own dark palette rather than reading page tokens, because a
+   terminal that turns white in one of the two styles stops being a terminal.
+   The colours are Studio's dark band, one step darker, so the two agree. */
+.rv-term {
+  --t-bg: #131419; --t-bar: #1D1E24; --t-rule: #2C2D35;
+  --t-ink: #E4E6EB; --t-dim: #7B808B; --t-acc: #8E9BFF; --t-ok: #5BD08A;
+  align-self: center; border-radius: 10px; overflow: hidden;
+  background: var(--t-bg); border: 1px solid var(--t-rule);
+  box-shadow: 0 16px 38px -26px rgba(0, 0, 0, .8);
 }
+.rv-tbar {
+  display: flex; align-items: center; gap: .3rem;
+  padding: .5rem .65rem; background: var(--t-bar);
+  border-bottom: 1px solid var(--t-rule);
+}
+.rv-tdot { width: .4rem; height: .4rem; border-radius: 50%; background: #3A3C45; flex: none; }
+.rv-tdot:first-child { background: #4A4D57; }
+.rv-tname {
+  margin-left: .4rem; font-family: var(--mono); font-size: .625rem;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--t-dim);
+}
+
+/* Every line keeps its space from the start, so nothing reflows as the log
+   fills and the panel is only ever as tall as its six lines. */
 .rv-log {
-  list-style: none; margin: 0; padding: .65rem .7rem .3rem;
-  display: grid; align-content: start; gap: .34rem;
+  list-style: none; margin: 0; padding: .7rem .7rem .75rem;
+  display: grid; gap: .38rem;
 }
 .rv-log li {
-  display: grid; grid-template-columns: .5rem minmax(0, max-content) .7rem;
-  justify-content: start; gap: .32rem; align-items: baseline;
-  font-family: var(--mono); font-size: .625rem; line-height: 1.4;
-  color: var(--muted); opacity: 0; transition: opacity .25s;
+  display: grid; grid-template-columns: .85rem minmax(0, max-content);
+  gap: .4rem; align-items: baseline; justify-content: start;
+  font-family: var(--mono); font-size: .6875rem; line-height: 1.35;
+  color: var(--t-dim); opacity: 0; transition: opacity .3s;
+  /* an empty row holds no content and would collapse, so the terminal would
+     grow line by line and shove itself around. All six rows are reserved. */
+  min-height: 1.35em;
 }
 .rv-log li.on { opacity: 1; }
-.rv-log li.done { color: var(--ink); }
-.rv-log .mk { color: var(--acc); }
-.rv-log .tx { overflow-wrap: anywhere; }
-.rv-log .ok { opacity: 0; transition: opacity .2s; }
-.rv-log .ok svg { width: .62rem; height: .62rem; display: block; stroke: var(--acc); }
-.rv-log li.done .ok { opacity: 1; }
-.rv-log li.busy .tx:after { content: "\258C"; animation: rvblink 1s steps(1) infinite; }
-@keyframes rvblink { 50% { opacity: 0; } }
-.rv-status {
-  font-family: var(--mono); font-size: .625rem; letter-spacing: .05em;
-  text-transform: uppercase; color: var(--acc);
-  padding: .5rem .7rem .55rem; border-top: 1px solid var(--rule);
-  opacity: 0; transition: opacity .35s;
+.rv-log li.done, .rv-log li.p { color: var(--t-ink); }
+.rv-log li.run { color: var(--t-acc); }
+.rv-log .mk { justify-self: center; color: var(--t-acc); }
+.rv-log li.p .mk:before { content: "$"; }
+.rv-log .sp, .rv-log .ok { display: none; width: .68rem; height: .68rem; }
+.rv-log li.busy .sp, .rv-log li.run .sp { display: block; animation: rvspin .85s linear infinite; }
+.rv-log li.done .ok { display: block; }
+.rv-log .sp { stroke: var(--t-acc); }
+.rv-log .ok { stroke: var(--t-ok); }
+@keyframes rvspin { to { transform: rotate(360deg); } }
+/* the block cursor, on the line being typed and on the prompt while it waits */
+.rv-log li.busy .tx:after, .rv-log li.waiting .tx:after {
+  content: "\258C"; color: var(--t-acc); animation: rvblink 1s steps(1) infinite;
 }
-.rv-status.on { opacity: 1; }
+@keyframes rvblink { 50% { opacity: 0; } }
 
 .rv-app {
   position: relative; border-radius: 10px; overflow: hidden; cursor: crosshair;
@@ -248,10 +269,19 @@ body { margin: 0; background: var(--page-bg, #FFF); }
   user-select: none; -webkit-user-select: none; touch-action: none;
   border: 1px solid var(--rule); background: var(--surface);
   box-shadow: 0 14px 34px -26px rgba(0, 0, 0, .5);
-  opacity: 1; transform: none; transition: opacity .45s, transform .45s var(--ease);
+  opacity: 1; transform: none;
+  transition: opacity .45s, transform .45s var(--ease),
+              background .45s, border-color .45s, box-shadow .45s;
 }
-.rv-app.pending { opacity: 0; transform: translateY(8px) scale(.99); }
-.rv-bar { display: flex; align-items: center; gap: .45rem; padding: .45rem .7rem; border-bottom: 1px solid var(--rule); }
+/* Before the build there is an empty dashed frame rather than nothing at all.
+   The terminal can wait a while for someone to arrive, and a blank third of
+   the panel for that whole time reads as a page that failed to load. */
+.rv-app.pending {
+  opacity: .55; transform: none; background: transparent; box-shadow: none;
+  border-style: dashed; border-color: var(--faint);
+}
+.rv-app.pending .rv-bar { opacity: 0; border-bottom-color: transparent; }
+.rv-bar { display: flex; align-items: center; gap: .45rem; padding: .45rem .7rem; border-bottom: 1px solid var(--rule); transition: opacity .45s, border-color .45s; }
 .rv-dot { width: .45rem; height: .45rem; border-radius: 50%; background: var(--acc); flex: none; }
 .rv-ttl { font-family: var(--mono); font-size: .625rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
 .rv-body { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
@@ -310,7 +340,6 @@ body { margin: 0; background: var(--page-bg, #FFF); }
   .visual { grid-template-columns: 1fr; gap: 1rem; }
   .rv-left { grid-template-columns: 8.5rem minmax(0, 1fr); align-items: end; gap: .5rem 1rem; }
   .rv-cap { align-self: end; max-width: none; }
-  .rv-agent { min-height: 8.5rem; }
 }
 @media (max-width: 460px) {
   .rv-body { grid-template-columns: 1fr; }

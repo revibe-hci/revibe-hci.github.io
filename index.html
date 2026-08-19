@@ -66,11 +66,18 @@
           UIST 2004, rebuilt from the paper alone.</p>
         </div>
 
-        <!-- what the agent did, between the paper and the thing it built -->
-        <div class="rv-agent">
-          <div class="rv-bar"><span class="rv-dot" aria-hidden="true"></span><span class="rv-ttl">revibe agent</span></div>
-          <ol class="rv-log" id="rv-log"></ol>
-          <p class="rv-status" id="rv-status" role="status">&nbsp;</p>
+        <!-- what the agent did, between the paper and the thing it built. It is
+             one picture as far as a screen reader is concerned, because reading
+             out a line of terminal output per character helps nobody. -->
+        <div class="rv-term" id="rv-term" role="img"
+             aria-label="A terminal. Someone types: revibe this paper. The agent
+             replies: read crossy-p1.pdf, extract figure 1, list the controls,
+             build the interface, and then revibe running.">
+          <div class="rv-tbar" aria-hidden="true">
+            <span class="rv-tdot"></span><span class="rv-tdot"></span><span class="rv-tdot"></span>
+            <span class="rv-tname">revibe</span>
+          </div>
+          <ol class="rv-log" id="rv-log" aria-hidden="true"></ol>
         </div>
 
         <div class="rv-app pending" id="rv-app">
