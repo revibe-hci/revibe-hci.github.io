@@ -317,13 +317,20 @@ own resolution. In that figure the columns are Claude Code, Cursor and Gemini fr
 left to right, and the rows are Spellburst then Rescribe, so the extraction order
 tells you which file is which. Confirm against the figure before swapping one.
 
-## One trap in the CSS
+## Two traps in the CSS
 
 `.page p { margin: 0 }` is a class plus a type, so it outranks a bare class. A
 rule like `.minihead { margin-bottom: .7rem }` on a paragraph therefore does
 nothing at all, silently. Six rules were sitting dead this way. Anything that
 gives a classed paragraph a margin is written `.page .minihead { ... }` for that
 reason. If a gap you added refuses to appear, check this first.
+
+`.details-bed` pulls itself up over the last 4rem of the hero panel with a
+negative top margin, and it comes later in the document, so it paints on top.
+It is only a wash, but it was taking every click in that band, including the
+paper's own link once the caption moved down there. It carries
+`pointer-events: none` now and `.details-wrap` takes them back. If something
+near the bottom of the hero stops responding, this is why.
 
 ## Links to papers
 

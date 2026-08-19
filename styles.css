@@ -85,9 +85,14 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 /* ---------- hero ---------- */
 .hero { padding: clamp(1.75rem, 4vw, 3rem) 0 0; position: relative; overflow: hidden; }
 .hero-in, .details-wrap { position: relative; }
+.details-wrap { pointer-events: auto; }
 /* a full width bed under the facts strip: the field fades into plain page colour
    before it, so that row is always legible whatever the wave is doing */
 .details-bed {
+  /* This is a wash, nothing more. The negative margin pulls it up over the last
+     4rem of the hero panel, so without this it takes clicks meant for whatever
+     is under there. It swallowed the paper's own link once already. */
+  pointer-events: none;
   position: relative; padding-top: 4rem; margin-top: -4rem;
   background: linear-gradient(180deg, transparent 0%,
     color-mix(in srgb, var(--ground) 10%, transparent) 20%,
@@ -288,8 +293,16 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 /* not there yet means not clickable either, or an invisible window would take
    a click meant for the panel behind it and skip the build */
 .rv-app.pending { opacity: 0; transform: translateY(8px) scale(.99); pointer-events: none; }
-.rv-app.bare .rv-sw .box { opacity: 0; }
-.rv-app.bare .rv-preview { opacity: 0; border-left-color: transparent; }
+.rv-app.bare .rv-sw .box,
+.rv-app.pending .rv-sw .box { opacity: 0; }
+.rv-app.bare .rv-preview,
+.rv-app.pending .rv-preview { opacity: 0; border-left-color: transparent; }
+/* While the window is hidden its insides change state with no transition. The
+   window fades in over .45s and the preview used to fade out over .4s at the
+   same moment, so the preview showed through for a third of a second on its
+   way out. Held at zero from the start, there is nothing to fade. */
+.rv-app.pending .rv-sw .box,
+.rv-app.pending .rv-preview { transition: none; }
 .rv-bar { display: flex; align-items: center; gap: .45rem; padding: .45rem .7rem; border-bottom: 1px solid var(--rule); }
 .rv-dot { width: .45rem; height: .45rem; border-radius: 50%; background: var(--acc); flex: none; }
 .rv-ttl { font-family: var(--mono); font-size: .625rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
