@@ -432,10 +432,8 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 .wrow { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr) 2.3rem; align-items: center; gap: .7rem; }
 .page .wrow .nm { font-family: var(--ui); font-size: .8125rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--ink); }
 .page .wrow .nm:hover { color: var(--acc); }
-.wrow .cs { display: flex; gap: 3px; }
-.wrow .c { flex: 1; height: .5rem; border-radius: 2px; background: var(--ink); }
-.wrow .c.p { opacity: .34; }
-.wrow .c.f { background: transparent; border: 1px solid var(--faint); }
+.wrow .bar { height: .5rem; border-radius: 2px; background: var(--tint); overflow: hidden; }
+.wrow .bar i { display: block; height: 100%; background: var(--ink); border-radius: 2px; }
 .wrow .sc { font-family: var(--mono); font-size: .625rem; color: var(--muted); text-align: right; }
 .page .wallnote { margin-top: .7rem; font-family: var(--ui); font-size: .75rem; line-height: 1.45; color: var(--muted); }
 @media (max-width: 420px) {
@@ -469,12 +467,13 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 }
 .page .cardcap { margin-top: .5rem; font-family: var(--ui); font-size: .75rem; line-height: 1.4; color: var(--muted); }
 .page .tools-head { margin-top: 1.8rem; }
-.tools { display: grid; gap: .45rem; }
-.trow { display: grid; grid-template-columns: 5.6rem minmax(0,1fr) 2.4rem; align-items: center; gap: .6rem; }
+.tools { display: grid; gap: .8rem; }
+.trow { display: grid; grid-template-columns: 5.6rem minmax(0,1fr) 2.4rem; align-items: center; gap: .1rem .6rem; }
 .trow .nm { font-family: var(--ui); font-size: .8125rem; white-space: nowrap; }
 .trow .bar { height: .5rem; border-radius: 2px; background: var(--tint); overflow: hidden; }
 .trow .bar i { display: block; height: 100%; background: var(--acc); border-radius: 2px; }
 .trow .val { font-family: var(--mono); font-size: .6875rem; color: var(--muted); text-align: right; }
+.trow .mdl { grid-column: 1 / -1; font-family: var(--mono); font-size: .625rem; color: var(--muted); }
 .page .toolnote { margin-top: .6rem; font-family: var(--ui); font-size: .75rem; line-height: 1.45; color: var(--muted); }
 .cardcap b { font-weight: var(--w); }
 .page .cardcap a, .page .rv-cap a { color: var(--ink); }

@@ -662,44 +662,36 @@
   })();
 
   /* ================= the grading wall =================
-     The ten systems that were revibed. Spellburst, Vizability and XCreation
-     reached a complete best run; the lowest best run in the paper was 80%.
-     Per-test detail is a stand-in until the published rubrics are pulled from
-     the paper's supplement, which the caption says. */
+     The ten systems that were revibed, each shown as its best-run
+     revibeability score on a shared 0 to 100% scale. Scores are read off
+     Figure 3 of the paper; the mean of the ten is 0.941, matching the
+     paper's reported best-run mean (min 0.8, max 1). Rubrics differ in
+     length between systems, so a share of the system's own rubric is the
+     honest comparison, not a fixed row of test cells. */
 
   var SYSTEMS = [
-    ["Spellburst",      "100%", "10.1145/3586183.3606719"],
-    ["VizAbility",      "100%", "10.1145/3654777.3676414"],
-    ["XCreation",       "100%", "10.1145/3586183.3606826"],
-    ["B2",              "",     "10.1145/3379337.3415851"],
-    ["CoLadder",        "",     "10.1145/3654777.3676357"],
-    ["EvalGen",         "",     "10.1145/3654777.3676450"],
-    ["GenAssist",       "",     "10.1145/3586183.3606735"],
-    ["mage",            "",     "10.1145/3379337.3415842"],
-    ["Rescribe",        "",     "10.1145/3379337.3415864"],
-    ["Sketch-n-Sketch", "",     "10.1145/3332165.3347925"]
+    ["Spellburst",      1.00, "10.1145/3586183.3606719"],
+    ["VizAbility",      1.00, "10.1145/3654777.3676414"],
+    ["XCreation",       1.00, "10.1145/3586183.3606826"],
+    ["CoLadder",        0.98, "10.1145/3654777.3676357"],
+    ["GenAssist",       0.98, "10.1145/3586183.3606735"],
+    ["EvalGen",         0.96, "10.1145/3654777.3676450"],
+    ["Rescribe",        0.95, "10.1145/3379337.3415864"],
+    ["B2",              0.90, "10.1145/3379337.3415851"],
+    ["mage",            0.84, "10.1145/3379337.3415842"],
+    ["Sketch-n-Sketch", 0.80, "10.1145/3332165.3347925"]
   ];
 
   (function wall() {
     var host = document.getElementById("wall");
     if (!host) return;
-    var seed = 7;
-    function rnd() { seed = (seed * 1103515245 + 12345) % 2147483648; return seed / 2147483648; }
     SYSTEMS.forEach(function (s) {
-      var complete = s[1] !== "";
-      var cs = "";
-      for (var i = 0; i < 14; i++) {
-        var cls = "c";
-        if (!complete) {
-          var r = rnd();
-          if (r > 0.93) cls += r > 0.975 ? " f" : " p";
-        }
-        cs += '<span class="' + cls + '"></span>';
-      }
+      var pct = Math.round(s[1] * 100);
       var row = document.createElement("div");
       row.className = "wrow";
       row.innerHTML = '<a class="nm" href="https://doi.org/' + s[2] + '">' + s[0] +
-        '</a><span class="cs">' + cs + '</span><span class="sc">' + s[1] + "</span>";
+        '</a><span class="bar"><i style="width:' + pct + '%"></i></span>' +
+        '<span class="sc">' + pct + "%</span>";
       host.appendChild(row);
     });
   })();
@@ -767,8 +759,13 @@
 
   /* ---- mean revibeability by tool ----
      From the paper: Cursor 0.914 (min 0.8), Claude Code 0.87 (min 0.53), Gemini
-     0.67 (min 0.33), each a mean across every run rather than the best one. */
-  var TOOLS = [["Cursor", 0.914], ["Claude Code", 0.87], ["Gemini", 0.67]];
+     0.67 (min 0.33), each a mean over that tool's final revibe of each system
+     it ran. The models are named because the numbers are tied to them. */
+  var TOOLS = [
+    ["Cursor",      0.914, "claude-sonnet-4-6, some runs gpt-5.4-xhigh"],
+    ["Claude Code", 0.87,  "claude-sonnet-4-6"],
+    ["Gemini",      0.67,  "gemini-3.1-pro + gemini-3-flash"]
+  ];
 
   (function tools() {
     var host = document.getElementById("tools");
@@ -778,7 +775,8 @@
       row.className = "trow";
       row.innerHTML = '<span class="nm">' + t[0] + '</span>' +
         '<span class="bar"><i style="width:' + Math.round(t[1] * 100) + '%"></i></span>' +
-        '<span class="val">' + Math.round(t[1] * 100) + "%</span>";
+        '<span class="val">' + Math.round(t[1] * 100) + "%</span>" +
+        '<span class="mdl">' + t[2] + "</span>";
       host.appendChild(row);
     });
   })();
