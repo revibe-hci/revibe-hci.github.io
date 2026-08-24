@@ -14,7 +14,7 @@
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="page quiet" id="page">
+<div class="page" id="page">
 
   <header class="nav">
     <div class="nav-in">
@@ -23,10 +23,10 @@
         <li><a href="#background">Background</a></li>
         <li><a href="#program">Program</a></li>
         <li><a href="#outputs">Outputs</a></li>
-        <li><a href="#registration">Apply</a></li>
+        <li><a href="#registration">Register</a></li>
         <li><a href="#organizers">Organizers</a></li>
       </ul>
-      <a class="btn" href="#registration">Apply</a>
+      <a class="btn" href="#registration">Register</a>
     </div>
   </header>
 
@@ -38,11 +38,11 @@
       <h1>Revibing HCI</h1>
       <p class="sub">Agentic Reimplementation as Community Practice</p>
       <p class="lede">Agentic coding tools can now reimplement the systems described
-      in research papers. This workshop brings the UIST community together to try it,
-      to test ways of verifying the results, and to form early norms for the
-      practice.</p>
+      in research papers. This workshop brings the UIST community to revibe prior
+      papers, test ways to evaluate revibes, and discuss the implications of
+      revibing and agentic coding for HCI research.</p>
       <div class="acts">
-        <a class="btn" href="#registration">Apply to join</a>
+        <a class="btn" href="#registration">Register to attend</a>
         <a class="btn line" href="assets/UIST_2026_Workshop_Revibe.pdf">Workshop proposal</a>
       </div>
     </div>
@@ -88,6 +88,10 @@
           <svg class="rv-ink" id="rv-ink" aria-hidden="true"></svg>
         </div>
 
+        <p class="rv-try" id="rv-try"><svg viewBox="0 0 20 12" aria-hidden="true"><circle
+        cx="3" cy="9.6" r="1.5" fill="currentColor" stroke="none"/><path
+        d="M3 9.6c5.5.6 9-2.4 11-7.4"/></svg>Try the revibe by drawing a stroke</p>
+
         <p class="rv-cap"><a class="rv-src" href="https://doi.org/10.1145/1029632.1029635">CrossY</a>,
         UIST 2004, rebuilt from the paper alone.</p>
       </div>
@@ -98,7 +102,7 @@
       <div><span class="k">When</span><span class="v">Monday 2 November 2026<small>9:00 to 17:00</small></span></div>
       <div><span class="k">Where</span><span class="v">Detroit Marriott<small>Renaissance Center, room to be announced</small></span></div>
       <div><span class="k">Format</span><span class="v">Full day, in person<small>Groups of two or three</small></span></div>
-      <div><span class="k">To join</span><span class="v">Answer three questions<small>Short form, no position paper</small></span></div>
+      <div><span class="k">To join</span><span class="v">Register via UIST 2026<small>Short form to follow</small></span></div>
     </div>
     </div>
     </div>
@@ -112,9 +116,9 @@
             <p class="tag">Background</p>
             <h2>Revibing Code from Papers: Reimplementing HCI Artifacts</h2>
             <p>Software artifacts for most technical HCI projects are unavailable,
-            which makes it hard to extend prior work, use strong baselines, or
+            which makes it hard to extend prior work, use them as strong baselines, or
             replicate results. Adar et al. show that agentic tools can reimplement
-            interactive software directly from the paper describing it.</p>
+            interactive systems directly from the papers describing them.</p>
           </div>
           <div class="nums">
             <div><b>10</b><span>UIST systems revibed, none with a public implementation</span></div>
@@ -163,9 +167,8 @@
     <div class="wrap">
       <div class="sec-head">
         <h2>Workshop program</h2>
-        <p>Interactive group activities that move from building revibes in the
-        morning to evaluating and reflecting on them in the afternoon. Coffee at
-        10:30 and 15:00.</p>
+        <p>Interactive group activities, ranging from a revibe hackathon in the
+        morning to evaluation and discussion in the afternoon.</p>
       </div>
 
       <div class="prog">
@@ -178,17 +181,16 @@
           <p class="d">A step by step walkthrough of revibing one UIST system paper,
           chosen from participant nominations. You follow along in groups of two or
           three, brainstorm remixes while the agents run, then add your own
-          extension. Pre-revibed codebases are on GitHub as a fallback.</p>
+          extension.</p>
           <ol class="steps" id="steps"></ol>
         </div>
 
         <div class="pl">
           <span class="t">11:10 to 12:15</span>
           <h3>Revibes Showcase</h3>
-          <p class="d">Each group presents a short walkthrough of their revibe, the
-          challenges and opportunities they met, and any remixes they made.
-          Participants vote on the most faithful revibe and the most interesting
-          remix.</p>
+          <p class="d">Each group walks through their revibe and any remixes they
+          made. Participants vote on the most faithful revibe and the most
+          interesting remix.</p>
         </div>
 
         <div class="pl rest"><span class="t">12:15 to 13:45</span><h3>Lunch</h3></div>
@@ -196,17 +198,15 @@
         <div class="pl">
           <span class="t">13:45 to 14:45</span>
           <h3>Evaluation Jam</h3>
-          <p class="d">Thirty minutes brainstorming validation approaches seeded by
-          organizer-provided contexts and methods, then thirty minutes clustering
-          the post-its at a shared wall into an evaluation catalog.</p>
+          <p class="d">Brainstorm validation approaches for revibes, then cluster
+          them at a shared wall to create an evaluation catalog.</p>
         </div>
 
         <div class="pl big">
           <span class="t">14:45 to 16:30</span>
           <h3>Breakout Meta Discussions and Cross-Table Exchange</h3>
-          <p class="d">Two rounds. Each is a forty minute discussion at an
-          organizer-moderated table, then a cross-table exchange where organizers
-          summarize their group. You shuffle tables between rounds.</p>
+          <p class="d">Two rounds of discussion on broader meta topics, then a
+          cross-table exchange to synthesize arguments, opinions and ideas.</p>
           <ul class="themes3" id="themes"></ul>
         </div>
 
@@ -218,17 +218,49 @@
   <section class="sec band" id="outputs">
     <div class="wrap">
       <div class="sec-head">
-        <h2>Three things the day has to produce</h2>
-        <p>Each one starts in a session and is finished by the people who were
-        there. All three are mirrored in a public GitHub repository.</p>
+        <h2>Outcomes from the workshop</h2>
+        <p>We aim to finish the day with concrete outcomes to share with the
+        community.</p>
       </div>
       <div class="outs">
-        <div><b>A community document</b><span>The norms this practice needs, drafted
-        in the meta discussions and co-authored by the room.</span></div>
-        <div><b>An interactive showroom</b><span>The revibed systems from the day,
-        collected and running wherever they can run.</span></div>
-        <div><b>An evaluation catalog</b><span>A reusable set of ways to check a
-        revibe, clustered from the evaluation jam.</span></div>
+        <div>
+          <span class="txt"><b>A community document</b><span>The norms this practice needs, written together.</span></span>
+          <svg class="art" viewBox="0 0 80 56" fill="none" stroke="currentColor"
+            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="12" y="8" width="30" height="38" rx="2.5" opacity=".45" transform="rotate(-13 27 27)"/>
+            <rect x="38" y="8" width="30" height="38" rx="2.5" opacity=".45" transform="rotate(13 53 27)"/>
+            <rect x="23" y="4" width="34" height="48" rx="2.5" fill="var(--band)"/>
+            <path d="M29 13h14" stroke="var(--acc)" stroke-width="2.5"/>
+            <path d="M29 22h22M29 29h22M29 36h14M29 43h22"/>
+          </svg>
+        </div>
+        <div>
+          <span class="txt"><b>An interactive showroom</b><span>Every revibe from the day, collected in one place.</span></span>
+          <svg class="art" viewBox="0 0 80 56" fill="none" stroke="currentColor"
+            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3" y="11" width="21" height="32" rx="2.5"/><path d="M3 18h21"/>
+            <circle cx="13.5" cy="30.5" r="5.5"/>
+            <rect x="29" y="5" width="22" height="44" rx="2.5"/><path d="M29 12h22"/>
+            <path d="M34 22h12M34 30h12"/>
+            <path d="M32 38c6-2 11-8 13-16" stroke="var(--acc)" stroke-width="2.5"/>
+            <rect x="56" y="11" width="21" height="32" rx="2.5"/><path d="M56 18h21"/>
+            <path d="M60 26h13M60 34h13"/><circle cx="64" cy="26" r="2"/><circle cx="69" cy="34" r="2"/>
+          </svg>
+        </div>
+        <div>
+          <span class="txt"><b>An evaluation catalog</b><span>Ways to evaluate a revibe, clustered from the jam.</span></span>
+          <svg class="art" viewBox="0 0 80 56" fill="none" stroke="currentColor"
+            stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="4" width="32" height="48" rx="8" opacity=".4" stroke-dasharray="3.5 4.5"/>
+            <rect x="10" y="9" width="20" height="10" rx="2" transform="rotate(-4 20 14)"/>
+            <rect x="10" y="23" width="20" height="10" rx="2" transform="rotate(4 20 28)"/>
+            <rect x="10" y="37" width="20" height="10" rx="2" transform="rotate(-3 20 42)"/>
+            <rect x="42" y="11" width="32" height="34" rx="8" opacity=".4" stroke-dasharray="3.5 4.5"/>
+            <rect x="48" y="16" width="20" height="10" rx="2" transform="rotate(4 58 21)"
+                  stroke="var(--acc)" stroke-width="2.2"/>
+            <rect x="48" y="30" width="20" height="10" rx="2" transform="rotate(-4 58 35)"/>
+          </svg>
+        </div>
       </div>
     </div>
   </section>
@@ -236,24 +268,18 @@
   <section class="sec" id="registration">
     <div class="wrap">
       <div class="sec-head">
-        <h2>Apply to participate</h2>
+        <h2>Register to participate</h2>
       </div>
       <div class="prose">
-        <p>Apply through a short form with a few open-ended questions: which classic
-        HCI system paper you would want revibed, one idea for evaluating a revibed
-        system, and any seed topics for discussion.</p>
-        <p>Attendance is through the
+        <p>Register through the
         <a href="https://uist.acm.org/2026/attending/#registration">UIST 2026
-        registration system</a>. The workshop is in person only and capacity is
-        limited by the venue.</p>
-      </div>
-      <div class="dates">
-        <div><span class="k">Applications open</span><span class="v">To be announced</span></div>
-        <div><span class="k">Notifications</span><span class="v">To be announced</span></div>
-        <div><span class="k">Workshop</span><span class="v">Monday 2 November 2026</span></div>
+        registration system</a>, which is open now. The workshop is in person only
+        and capacity is limited by the venue.</p>
+        <p>Closer to the date we will send registered participants a short form
+        inviting their ideas and thoughts for the day.</p>
       </div>
       <div class="acts applyrow">
-        <a class="btn" href="#registration" data-apply>Open the application form</a>
+        <a class="btn" href="#registration" data-apply>Register through UIST 2026</a>
       </div>
     </div>
   </section>
@@ -275,11 +301,6 @@
         <a href="mailto:kevin.pu@mail.utoronto.ca">Kevin Pu</a>.</p>
       <div class="footmeta">
         <span>Revibing HCI, a full day workshop at ACM UIST 2026</span>
-        <span class="styleswitch">
-          <span>Style</span>
-          <button type="button" data-style="quiet" aria-pressed="true">Quiet</button>
-          <button type="button" data-style="studio" aria-pressed="false">Studio</button>
-        </span>
       </div>
     </div>
   </footer>

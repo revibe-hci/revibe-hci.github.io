@@ -40,17 +40,14 @@ therefore adds a `download` attribute to that link, which browsers do allow, so 
 the single file the proposal saves to disk instead of opening. Any other linked
 file added to the page will need the same treatment.
 
-Two smaller notes for that file. Opened from disk, the style choice will not
-persist in Safari, which blocks local storage for local files; the code expects
-that and falls back to Quiet. And the workshop is dated and venued in the markup,
+One smaller note for that file. The workshop is dated and venued in the markup,
 so a copy sent out today will not know if those change.
 
 ## Editing
 
-**Two styles.** Quiet and Studio are token blocks at the top of `styles.css`.
-Every rule below reads tokens, so a third style is one more block, and nothing
-else changes. The visitor's choice is kept in `localStorage` under
-`revibe-style`.
+**One style.** The palette, type and radii are a token block at the top of
+`styles.css`. Every rule below reads tokens, so a variant is one more block, and
+nothing else changes.
 
 **The program.** Rows are in `index.html` under `.prog`. A row is a time, an
 `h3`, and optionally a `p.d`. Welcome, Introductions, Lunch and Closing have no
@@ -68,11 +65,9 @@ before launch. To replace one, overwrite the file; the name is the fourth slot o
 that person's row in `main.js`.
 
 **Still to fill in.** `APPLY_URL` near the bottom of `main.js` is the one place
-the application form URL lives. It currently points at the UIST 2026 registration
-page as a stand-in, and `main.js` writes it onto every element marked
-`data-apply`. Put the real form URL there and every Apply button follows. The two
-dates that say "To be announced" and the room number in the hero are the other
-open items.
+the registration URL lives. It points at the UIST 2026 registration page, and
+`main.js` writes it onto every element marked `data-apply`. The room number in
+the hero is the other open item.
 
 ## Icons
 
@@ -100,8 +95,7 @@ paper. It describes the panel rather than the page image, and on its own row it
 stays on one line instead of breaking into two in a narrow column.
 
 **The terminal** keeps its own dark palette rather than reading page tokens,
-because a terminal that turns white in one of the two styles stops being a
-terminal. The colours are Studio's dark band, one step darker, so the two agree.
+because a terminal that turns white stops being a terminal. The colours are a dark band a step below the page ground.
 
 Six lines: the request, four commands, and `revibe running`, which never
 completes and keeps a turning spinner for as long as the page is open. Every

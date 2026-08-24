@@ -1,14 +1,12 @@
 /* Revibing HCI, UIST 2026.
-   Two visitor-selectable styles, Quiet and Studio, driven entirely by the tokens
-   on .page. Everything below reads tokens, so a third style is a token block. */
+   One style, driven entirely by the tokens on .page. Everything below reads
+   tokens, so a variant is a token block. */
 
 /* Each file holds one weight, so each weight needs its own rule. Declaring a
    range here would make the browser reuse the regular for headings, which is
    what made the first headings look thin. */
 @font-face { font-family: "Schibsted Grotesk"; font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/schibsted.woff2) format("woff2"); }
 @font-face { font-family: "Schibsted Grotesk"; font-style: normal; font-weight: 600; font-display: swap; src: url(assets/fonts/schibsted-600.woff2) format("woff2"); }
-@font-face { font-family: "Outfit";            font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/outfit.woff2) format("woff2"); }
-@font-face { font-family: "Outfit";            font-style: normal; font-weight: 600; font-display: swap; src: url(assets/fonts/outfit-600.woff2) format("woff2"); }
 @font-face { font-family: "DM Mono";           font-style: normal; font-weight: 400; font-display: swap; src: url(assets/fonts/dmmono-normal.woff2) format("woff2"); }
 
 * { box-sizing: border-box; }
@@ -30,25 +28,6 @@
   font-family: var(--read); font-size: 1rem; line-height: 1.55;
   -webkit-font-smoothing: antialiased;
 }
-.page.studio {
-  --ground: #FFFFFF; --band: #0E0E10; --ink: #0B0B0C; --muted: #6A6A6E;
-  --faint: #6E6E72; --rule: #E8E8E8; --accent: #0B0B0C; --tint: #F2F2F2;
-  --surface: #FFFFFF; --acc: #3A4CDE;
-  --r: 16px;
-  --display: "Outfit", system-ui, sans-serif; --display-w: 600; --display-ls: -.035em;
-  --ui: "Outfit", system-ui, sans-serif;
-  --read: "Outfit", system-ui, sans-serif;
-  --h1: clamp(2.3rem, 1rem + 4.4vw, 4.6rem);
-  --h2: clamp(1.5rem, 1.2rem + 1.3vw, 2.2rem);
-  --w: 500;
-}
-.page.studio .sec.band {
-  --ground: #0E0E10; --band: #0E0E10; --ink: #F4F4F5; --muted: #A8A8AC;
-  --faint: #9A9A9E; --rule: #2A2A2E; --accent: #F4F4F5; --tint: #26262A;
-  --surface: #1A1A1E; --acc: #8E9BFF; --on-acc: #0E0E10;
-  background: #0E0E10; color: var(--ink);
-}
-
 body { margin: 0; background: var(--page-bg, #FFF); }
 /* paragraphs start with no margin. Anything that needs one says so with a
    `.page` prefix, because this rule outranks a bare class selector. */
@@ -206,7 +185,7 @@ body { margin: 0; background: var(--page-bg, #FFF); }
    stuck beside the paper. It describes the panel, not the page image, and it
    fits on one line at any width worth having. */
 .rv-cap {
-  grid-column: 1 / -1; font-family: var(--ui); font-size: .75rem;
+  grid-column: 1 / 3; grid-row: 2; font-family: var(--ui); font-size: .75rem;
   line-height: 1.4; color: var(--muted);
 }
 /* the paper's own title is the link to it, so it carries an underline. Every
@@ -218,11 +197,26 @@ body { margin: 0; background: var(--page-bg, #FFF); }
   text-decoration-thickness: 1px; text-decoration-color: var(--faint);
 }
 .page .rv-cap .rv-src:hover { text-decoration-color: var(--acc); color: var(--acc); }
+/* The panel does not say what to do with it until it is finished being built,
+   because an invitation to draw on something still assembling itself is noise.
+   It sits directly under the interface it is talking about, in the accent, so
+   it reads as the page speaking to the reader rather than more caption. */
+.page .rv-try {
+  grid-column: 3; grid-row: 2; margin: 0;
+  font-family: var(--ui); font-size: .75rem; line-height: 1.4; color: var(--acc);
+  opacity: 0; transition: opacity .6s var(--ease);
+}
+.rv-try.on { opacity: 1; }
+.rv-try svg {
+  width: 1.2rem; height: .72rem; display: inline-block; vertical-align: -.06em;
+  margin-right: .3rem; fill: none; stroke: currentColor; stroke-width: 1.6;
+  stroke-linecap: round; stroke-linejoin: round;
+}
 
 /* ---------- the terminal: what the agent was asked, and what it ran ----------
    It keeps its own dark palette rather than reading page tokens, because a
    terminal that turns white in one of the two styles stops being a terminal.
-   The colours are Studio's dark band, one step darker, so the two agree. */
+   The colours are a dark band a step below the page ground. */
 .rv-term {
   --t-bg: #131419; --t-bar: #1D1E24; --t-rule: #2C2D35;
   --t-ink: #E4E6EB; --t-dim: #7B808B; --t-acc: #8E9BFF; --t-ok: #5BD08A;
@@ -357,6 +351,8 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 @media (max-width: 700px) {
   .visual { grid-template-columns: minmax(0, 9.5rem) minmax(0, 1fr); }
   .rv-app { grid-column: 1 / -1; }
+  .page .rv-try { grid-column: 1 / -1; grid-row: auto; }
+  .rv-cap { grid-column: 1 / -1; grid-row: auto; }
 }
 @media (max-width: 520px) {
   .visual { grid-template-columns: 1fr; row-gap: .9rem; }
@@ -509,21 +505,22 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 .themes3 b { font-family: var(--ui); font-weight: var(--w); font-size: .9375rem; }
 .themes3 span { font-size: .8125rem; line-height: 1.4; color: var(--muted); }
 
-/* ---------- after the workshop ---------- */
-.outs { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.2rem; }
-@media (max-width: 760px) { .outs { grid-template-columns: 1fr; gap: .9rem; } }
-.outs div { border-top: 2px solid var(--acc); padding-top: .5rem; display: grid; gap: .25rem; }
+/* ---------- after the workshop ----------
+   Each outcome is a drawing, a name and a line. The drawing is what gives the
+   row its structure, which is why there is no rule above the name any more. */
+.outs { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.6rem 1.7rem; }
+@media (max-width: 760px) { .outs { grid-template-columns: 1fr; gap: 1.3rem; } }
+/* the words carry the column and the drawing sits beside them, top-aligned, so
+   the three names still read as a row across the section */
+.outs > div { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: .9rem; align-items: start; }
+.outs .txt { display: grid; gap: .25rem; }
+.outs .art { width: 5rem; height: 3.5rem; display: block; color: var(--faint); }
 .outs b { font-family: var(--ui); font-weight: var(--w); font-size: .9375rem; }
 .outs span { font-size: .8125rem; line-height: 1.45; color: var(--muted); }
 
 /* ---------- registration, organizers, footer ---------- */
 .prose { max-width: 64ch; display: grid; gap: .75rem; }
 .prose b { font-weight: var(--w); }
-.dates { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: .9rem; margin-top: 1.5rem; max-width: 40rem; }
-@media (max-width: 560px) { .dates { grid-template-columns: 1fr; gap: .6rem; } }
-.dates div { border-top: 1px solid var(--rule); padding-top: .5rem; }
-.dates .k { display: block; font-family: var(--mono); font-size: .625rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: .2rem; }
-.dates .v { font-family: var(--ui); font-size: .9375rem; font-weight: var(--w); }
 .applyrow { margin-top: 1.5rem; }
 
 /* twelve columns, so the three who lead the workshop fill the first row by
@@ -549,15 +546,6 @@ footer { border-top: 1px solid var(--rule); }
 .page .foot .contact a { color: var(--ink); }
 .page .foot .contact a:hover { color: var(--acc); text-decoration: underline; }
 .footmeta { display: flex; flex-wrap: wrap; gap: .5rem 1.6rem; align-items: center; padding-top: 1.1rem; border-top: 1px solid var(--rule); }
-.styleswitch { margin-left: auto; display: flex; align-items: center; gap: .4rem; }
-.styleswitch span { font-family: var(--mono); font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; }
-.styleswitch button {
-  font: inherit; font-family: var(--ui); font-size: .8125rem; cursor: pointer;
-  padding: .22rem .7rem; border-radius: var(--pill);
-  border: 1px solid var(--rule); background: transparent; color: var(--muted);
-}
-.styleswitch button[aria-pressed="true"] { border-color: var(--acc); color: var(--ink); }
-
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }

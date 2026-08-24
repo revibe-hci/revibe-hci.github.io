@@ -34,24 +34,6 @@
     window.addEventListener("pageshow", sync);
   }
 
-  /* ---- visitor-selectable style, remembered between visits ---- */
-  var page = document.getElementById("page");
-  var STYLES = ["quiet", "studio"];
-  var KEY = "revibe-style";
-
-  function setStyle(name, remember) {
-    if (STYLES.indexOf(name) < 0) name = STYLES[0];
-    page.className = "page " + name;
-    document.querySelectorAll(".styleswitch button").forEach(function (b) {
-      b.setAttribute("aria-pressed", String(b.dataset.style === name));
-    });
-    if (remember) { try { localStorage.setItem(KEY, name); } catch (e) {} }
-  }
-  try { setStyle(localStorage.getItem(KEY) || "quiet", false); } catch (e) { setStyle("quiet", false); }
-  document.querySelectorAll(".styleswitch button").forEach(function (b) {
-    b.addEventListener("click", function () { setStyle(b.dataset.style, true); });
-  });
-
   /* ================= the hero visual =================
      A paper page on the left, and on the right the system that paper
      describes, rebuilt and running. The origin sequence plays once: the page
@@ -310,12 +292,19 @@
       app.className = "rv-app";
       switches.forEach(function (s) { s.el.classList.remove("pending"); });
     }
+    /* the invitation under the panel, which only makes sense once there is a
+       finished interface to draw on */
+    var tryNote = document.getElementById("rv-try");
+    function showTry() { if (tryNote) tryNote.classList.add("on"); }
+    function hideTry() { if (tryNote) tryNote.classList.remove("on"); }
+
     function finish() {
       done = true;
       runLine.tx.textContent = RUNNING;
       runLine.el.className = "on run";
       measure();
       scheduleGhost(400);
+      showTry();
     }
     /* if the visitor reaches for the demo mid-build, give it to them at once */
     function cancelToFinished() {
@@ -336,6 +325,7 @@
       seqTimers = [];
       stopGhost();
       done = false;
+      hideTry();
       pts = []; render();
       clearControls();
       paper.classList.remove("up");
@@ -363,6 +353,7 @@
         pts.forEach(crossAt);
         path.setAttribute("class", "rv-stroke ghost");
         render();
+        showTry();
         return;
       }
       /* The paper straightens and is read, then someone asks for it back. Each
@@ -846,7 +837,7 @@
     ["walk",   "Walk through one paper", "Together, on the system nominated by participants."],
     ["groups", "Follow along in groups", "Two or three people to a revibe."],
     ["remix",  "Remix while it builds", "Variations on the classic paper that raise a fresh question."],
-    ["extend", "Add your own extension", "The rest of the block is yours."]
+    ["extend", "Add your own extension", "Spend the rest of the session building on your revibe."]
   ];
   var steps = document.getElementById("steps");
   if (steps) {
