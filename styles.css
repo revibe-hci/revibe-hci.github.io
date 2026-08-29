@@ -542,7 +542,8 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 
 footer { border-top: 1px solid var(--rule); }
 .foot { max-width: 62rem; margin: 0 auto; padding: 1.5rem clamp(1rem, 4vw, 2rem) 1.3rem; font-family: var(--ui); font-size: .875rem; color: var(--muted); }
-.page .foot .contact { margin: 0 0 1.1rem; }
+.page .foot .foot-top { margin: 0 0 1.1rem; }
+.page .foot .contact { margin: 0; }
 .page .foot .contact a { color: var(--ink); }
 .page .foot .contact a:hover { color: var(--acc); text-decoration: underline; }
 .footmeta { display: flex; flex-wrap: wrap; gap: .5rem 1.6rem; align-items: center; padding-top: 1.1rem; border-top: 1px solid var(--rule); }
@@ -552,3 +553,9 @@ footer { border-top: 1px solid var(--rule); }
 
 /* the first paint of the field lands without a hundred flips at once */
 .hf-grid.hf-instant .hf-flip { transition: none; }
+
+/* ---------- supported-by, lives in the footer's top row ---------- */
+.foot-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+.support-row { display: flex; align-items: center; gap: .9rem; }
+.support-tag { font-family: var(--mono); font-size: .6875rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.support-logo { height: 24px; width: auto; opacity: .75; }
