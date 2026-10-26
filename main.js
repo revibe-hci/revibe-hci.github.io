@@ -814,14 +814,12 @@
       'stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + I[name] + "</svg>";
   }
 
-  /* ---- the six breakout themes ---- */
+  /* ---- the four breakout themes ---- */
   var THEMES = [
-    ["kinds",   "What gets revibed", "How revibeability shifts across systems, algorithms, datasets and techniques."],
-    ["spec",    "Writing for revibeability", "What authors should share, and what that asks of open science."],
-    ["compare", "Revibing as a research method", "Living baselines, rapid variations, and when a revibe is a valid comparison."],
-    ["teach",   "Revibing as pedagogy", "From reimplementation assignments to revibe and extend projects."],
-    ["gap",     "Limitations of revibeability", "Where revibes break down, and what negative effects follow."],
-    ["endures", "Future of systems contributions", "What lasts in a systems paper when the system is cheap to rebuild."]
+    ["kinds",   "Applications: what gets revibed?", "Which artifacts can and should be revibed, and whether revibing keeps older systems usable."],
+    ["spec",    "Quality and robustness: what makes a good revibe?", "How to judge a revibe, what authors should share, and where revibes break down."],
+    ["compare", "Methods and pedagogy: how can we use revibing?", "Living baselines, rapid variations, valid comparisons, and revibe and extend projects."],
+    ["endures", "Contributions and community: the future of systems research", "What lasts in a systems paper when the system is cheap to rebuild."]
   ];
   var themes = document.getElementById("themes");
   if (themes) {
@@ -834,10 +832,10 @@
 
   /* ---- the four beats of the live session, same icon language ---- */
   var STEPS = [
-    ["walk",   "Walk through one paper", "Together, on the system nominated by participants."],
-    ["groups", "Follow along in groups", "Two or three people to a revibe."],
-    ["remix",  "Remix while it builds", "Variations on the classic paper that raise a fresh question."],
-    ["extend", "Add your own extension", "Spend the rest of the session building on your revibe."]
+    ["walk",   "Pick a paper", "Each table chooses one of the papers the organizers selected."],
+    ["groups", "Revibe in groups", "About three people to a revibe, from a starter repository."],
+    ["spec",   "Note what happens", "Questions, challenges and decisions, on a shared board."],
+    ["remix",  "Start on remixes", "Accurate enough? Brainstorm variations that raise a fresh question."]
   ];
   var steps = document.getElementById("steps");
   if (steps) {

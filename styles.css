@@ -496,14 +496,13 @@ body { margin: 0; background: var(--page-bg, #FFF); }
 .steps b { font-family: var(--ui); font-weight: var(--w); font-size: .9375rem; }
 .steps .sd { font-size: .8125rem; line-height: 1.4; color: var(--muted); }
 
-.themes3 { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 1.05rem 1.4rem; }
-@media (max-width: 860px) { .themes3 { grid-template-columns: repeat(2, minmax(0,1fr)); } }
-@media (max-width: 560px) { .themes3 { grid-template-columns: 1fr; } }
-.themes3 li { display: grid; gap: .22rem; align-content: start; }
-.themes3 .ic { width: 1.75rem; height: 1.75rem; color: var(--acc); }
-.themes3 .ic svg { width: 100%; height: 100%; display: block; }
-.themes3 b { font-family: var(--ui); font-weight: var(--w); font-size: .9375rem; }
-.themes3 span { font-size: .8125rem; line-height: 1.4; color: var(--muted); }
+.themes2 { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 1.05rem 1.4rem; }
+@media (max-width: 560px) { .themes2 { grid-template-columns: 1fr; } }
+.themes2 li { display: grid; gap: .22rem; align-content: start; }
+.themes2 .ic { width: 1.75rem; height: 1.75rem; color: var(--acc); }
+.themes2 .ic svg { width: 100%; height: 100%; display: block; }
+.themes2 b { font-family: var(--ui); font-weight: var(--w); font-size: .9375rem; }
+.themes2 span { font-size: .8125rem; line-height: 1.4; color: var(--muted); }
 
 /* ---------- after the workshop ----------
    Each outcome is a drawing, a name and a line. The drawing is what gives the

@@ -50,8 +50,8 @@ so a copy sent out today will not know if those change.
 nothing else changes.
 
 **The program.** Rows are in `index.html` under `.prog`. A row is a time, an
-`h3`, and optionally a `p.d`. Welcome, Introductions, Lunch and Closing have no
-description on purpose. Times sit in the left page margin, absolutely positioned,
+`h3`, and optionally a `p.d`. Welcome, Introductions, Lunch, Break and Closing
+have no description on purpose; Lunch and Break carry `.rest`, which greys them. Times sit in the left page margin, absolutely positioned,
 and fall back inline below 1180px.
 
 **The breakout themes** and **the committee** are arrays at the bottom of
@@ -66,8 +66,7 @@ that person's row in `main.js`.
 
 **Still to fill in.** `APPLY_URL` near the bottom of `main.js` is the one place
 the registration URL lives. It points at the UIST 2026 registration page, and
-`main.js` writes it onto every element marked `data-apply`. The room number in
-the hero is the other open item.
+`main.js` writes it onto every element marked `data-apply`.
 
 ## Icons
 
