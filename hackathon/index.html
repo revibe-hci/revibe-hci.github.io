@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Revibe Hackathon &middot; Revibing HCI, UIST 2026</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Step by step: how your group revibes a paper at the Revibing HCI workshop, with every prompt to copy and the rubric to grade with.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230B0B0C'/%3E%3Cpath d='M9 8h9l5 5v11H9z' fill='none' stroke='%23F6F6F6' stroke-width='2'/%3E%3Cpath d='M11 26c6-3 10-9 10-18' fill='none' stroke='%232743D6' stroke-width='2.5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="hackathon.css">
+<link rel="stylesheet" href="../rubric/rubric.css">
+</head>
+<body>
+<!-- Step icons, drawn once and reused in the overview and in each step. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-start" viewBox="0 0 24 24"><path d="m4 17 6-6-6-6"/><path d="M12 19h8"/></symbol>
+    <symbol id="i-build" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6"/><path d="m8 6-6 6 6 6"/></symbol>
+    <symbol id="i-debug" viewBox="0 0 24 24"><path d="m8 2 1.88 1.88"/><path d="M14.12 3.88 16 2"/><path d="M9 7.13v-1a3 3 0 1 1 6 0v1"/><path d="M12 20c-3.3 0-6-2.7-6-6v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3c0 3.3-2.7 6-6 6"/><path d="M12 20v-9"/><path d="M6.53 9C4.6 8.8 3 7.1 3 5"/><path d="M6 13H2"/><path d="M3 21c0-2.1 1.7-3.9 3.8-4"/><path d="M20.97 5c0 2.1-1.6 3.8-3.5 4"/><path d="M22 13h-4"/><path d="M17.2 17c2.1.1 3.8 1.9 3.8 4"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></symbol>
+    <symbol id="i-grade" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><path d="m9 14 2 2 4-4"/></symbol>
+    <symbol id="i-fix" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+  </defs>
+</svg>
+<div class="page" id="page">
+
+  <header class="nav">
+    <div class="nav-in">
+      <a class="mark" href="../">Revibing HCI</a>
+      <ul>
+        <li><a href="#papers">Papers</a></li>
+        <li><a href="#setup">Set Up</a></li>
+        <li><a href="#steps">Steps</a></li>
+        <li><a href="#rubric">Rubric</a></li>
+        <li><a href="#share">Share</a></li>
+        <li><a href="#remix">Remixing</a></li>
+      </ul>
+      <a class="btn line" href="../">Workshop site</a>
+    </div>
+  </header>
+
+  <section class="mhead">
+    <div class="wrap">
+      <p class="eyebrow">Hackathon &middot; UIST 2026 &middot; 10:00 to 11:00</p>
+      <h1>The Revibe Hackathon</h1>
+      <p class="lede">In groups of about three, you rebuild one paper&rsquo;s system with a coding agent, from
+      the paper alone. You grade the build against the rubric on this page (version 1), the agent fixes what
+      you found, and you grade again (version 2). At 11:00 each table compares its revibes and picks one to
+      remix. The method follows the
+      <a href="https://arxiv.org/abs/2608.00450">&ldquo;Revibing Code from Papers&rdquo;</a> paper.</p>
+    </div>
+  </section>
+
+  <!-- ===================== papers ===================== -->
+  <section class="sec band" id="papers">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Today&rsquo;s Papers</h2>
+        <p>Each table picks one paper, and every group at the table revibes it. The links are for you, not your
+        agent: the agent works from the paper alone. Images: Figure 1 of each paper, by its authors.</p>
+      </div>
+      <div class="papers">
+        <article class="paper">
+          <img src="img/misty.jpg" alt="Figure 1 of the Misty paper" loading="lazy">
+          <p class="venue">CHI 2025</p>
+          <h3>Misty</h3>
+          <p class="what">Blend parts of example screenshots and sketches into a work-in-progress UI, then keep or
+          undo each change the blend made.</p>
+          <p class="by">Yuwen Lu, Alan Leung, Amanda Swearngin, Jeffrey Nichols, Titus Barik</p>
+          <p class="links"><a href="https://doi.org/10.1145/3706598.3713924">Paper</a>
+            <a href="https://arxiv.org/abs/2409.13900">arXiv</a>
+            <a href="https://machinelearning.apple.com/research/interactive-prototyping">Project page</a></p>
+        </article>
+        <article class="paper">
+          <img src="img/selenite.jpg" alt="Figure 1 of the Selenite paper" loading="lazy">
+          <p class="venue">CHI 2024</p>
+          <h3>Selenite</h3>
+          <p class="what">An LLM drafts an overview of the options and criteria for an unfamiliar topic, then
+          shows where each one comes up as you read web pages.</p>
+          <p class="by">Michael Xieyang Liu, Tongshuang Wu, Tianying Chen, Franklin Mingzhe Li, Aniket Kittur, Brad A. Myers</p>
+          <p class="links"><a href="https://doi.org/10.1145/3613904.3642149">Paper</a>
+            <a href="https://arxiv.org/abs/2310.02161">arXiv</a>
+            <a href="https://www.youtube.com/watch?v=DhR43tE2tEE">Video</a></p>
+        </article>
+        <article class="paper">
+          <img src="img/videodiff.jpg" alt="Figure 1 of the VideoDiff paper" loading="lazy">
+          <p class="venue">CHI 2025</p>
+          <h3>VideoDiff</h3>
+          <p class="what">Generate several AI edits of a video (rough cuts, B-roll, text effects) and compare them
+          side by side on aligned timelines and transcripts.</p>
+          <p class="by">Mina Huh, Dingzeyu Li, Kim Pimmel, Hijung Valentina Shin, Amy Pavel, Mira Dontcheva</p>
+          <p class="links"><a href="https://doi.org/10.1145/3706598.3713417">Paper</a>
+            <a href="https://arxiv.org/abs/2502.10190">arXiv</a>
+            <a href="https://research.adobe.com/publication/videodiff-human-ai-video-co-creation-with-alternatives">Project page</a></p>
+        </article>
+        <article class="paper">
+          <img src="img/talebrush.jpg" alt="Figure 1 of the TaleBrush paper" loading="lazy">
+          <p class="venue">CHI 2022</p>
+          <h3>TaleBrush</h3>
+          <p class="what">Sketch a character&rsquo;s rising and falling fortune as a line, and a language model
+          writes a story that follows it.</p>
+          <p class="by">John Joon Young Chung, Wooseok Kim, Kang Min Yoo, Hwaran Lee, Eytan Adar, Minsuk Chang</p>
+          <p class="links"><a href="https://doi.org/10.1145/3491102.3501819">Paper</a>
+            <a href="https://johnr0.github.io/assets/publications/CHI2022-TaleBrush.pdf">PDF</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== set up ===================== -->
+  <section class="sec" id="setup">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Before You Start</h2>
+      </div>
+
+      <h3>Who You Are</h3>
+      <p class="body">Fill this in once. The prompts, commands and rubric on this page adjust to your paper and
+      group. Everyone in your group uses the same table and group.</p>
+      <form class="setup" id="setup-form" autocomplete="off">
+        <label>Paper
+          <select name="paper" id="paper"></select>
+        </label>
+        <label>Table
+          <select name="table" id="table">
+            <option value="">Pick</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option>
+            <option>5</option><option>6</option><option>7</option>
+          </select>
+        </label>
+        <label>Group
+          <select name="group" id="group">
+            <option value="">Pick</option>
+            <option>1</option><option>2</option><option>3</option><option>4</option>
+          </select>
+        </label>
+      </form>
+      <p class="share"><button class="btn line small" type="button" id="share">Copy link for your group</button>
+        <span class="status" id="status" aria-live="polite"></span></p>
+
+      <h3 class="mt">What You Need</h3>
+      <ul class="ticks">
+        <li><a href="https://claude.com/claude-code">Claude Code</a> or
+          <a href="https://developers.openai.com/codex/cli">Codex</a>, installed and signed in.</li>
+        <li>Python 3, git and Node.js.</li>
+        <li>No API key. When the rebuilt system calls a language model, the call goes through your agent and your plan.</li>
+        <li><b>No plan?</b> Ask an organizer for a Codex credit link ($100, one per person). Open it while signed in
+          to the ChatGPT account you will use, then run <code>codex</code> and sign in with that account. Credits
+          expire 30 days after you redeem them. Please don&rsquo;t share links.</li>
+      </ul>
+
+      <h3 class="mt">Get the Workshop Repository</h3>
+      <div class="cmd"><pre>git clone --depth 1 <span data-repo>&lt;workshop repository&gt;</span>
+cd uist2026-workshop</pre><button class="copy" type="button">Copy</button></div>
+      <ul class="repo">
+        <li><span class="path"><code>papers/<span class="fill" data-fill="paper">&lt;paper&gt;</span>/paper/</code></span><span>The paper as Markdown, one file per section, with its figures. This is all your agent builds from.</span></li>
+        <li><span class="path"><code>papers/videodiff/materials/</code></span><span>Two short videos with transcripts, for VideoDiff only.</span></li>
+        <li><span class="path"><code>AGENTS.md</code>, <code>CLAUDE.md</code></span><span>The rules every group&rsquo;s agent follows: read only the paper, never the authors&rsquo; code or videos, note what it assumed or substituted, and do one step at a time.</span></li>
+        <li><span class="path"><code>llm-bridge/</code></span><span>Lets the system you build call a language model through your agent and your plan, with no API key.</span></li>
+        <li><span class="path"><code>prompts/</code></span><span>The prompts from the &ldquo;Revibing Code from Papers&rdquo; method. This page has them too.</span></li>
+        <li><span class="path"><code>revibes/<span class="fill" data-fill="paper">&lt;paper&gt;</span>/</code></span><span>Where your work goes: the system in <code>app/</code>, the agent&rsquo;s notes on each version in <code>changes/</code>, and your grades in <code>grades/</code>.</span></li>
+      </ul>
+
+    </div>
+  </section>
+
+  <!-- ===================== the steps ===================== -->
+  <section class="sec band" id="steps">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Step-by-Step Instructions</h2>
+        <p>Steps 1 to 3 show what the paper alone gets you. Step 5 shows what your grades add.</p>
+      </div>
+
+      <ol class="glance">
+        <li class="ph0"><span class="n">0</span><svg class="ic" aria-hidden="true"><use href="#i-start"/></svg><b>Get Ready</b><span class="who you">you</span></li>
+        <li class="ph1"><span class="n">1</span><svg class="ic" aria-hidden="true"><use href="#i-build"/></svg><b>Build from the Paper</b><span class="who build">agent</span></li>
+        <li class="ph1"><span class="n">2</span><svg class="ic" aria-hidden="true"><use href="#i-debug"/></svg><b>Debug Until It Launches</b><span class="who you">you + agent</span></li>
+        <li class="ph1"><span class="n">3</span><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg><b>Feature Check: Version 1</b><span class="who build">agent</span></li>
+        <li class="ph2"><span class="n">4</span><svg class="ic" aria-hidden="true"><use href="#i-grade"/></svg><b>Grade Version 1</b><span class="who you">you</span></li>
+        <li class="ph2"><span class="n">5</span><svg class="ic" aria-hidden="true"><use href="#i-fix"/></svg><b>Fix from Grades: Version 2</b><span class="who build">agent</span></li>
+        <li class="ph3"><span class="n">6</span><svg class="ic" aria-hidden="true"><use href="#i-grade"/></svg><b>Update Your Grades</b><span class="who you">you</span></li>
+      </ol>
+
+      <article class="step" id="step-0">
+        <div class="sn">0<svg class="ic" aria-hidden="true"><use href="#i-start"/></svg></div>
+        <div class="sb">
+          <h3>Get Ready <span class="who you">you</span></h3>
+<ul class="dos">
+            <li><b>Start your agent.</b> One person opens a terminal in the repository folder and runs <code>claude</code> or
+              <code>codex</code>. That laptop runs the agent and the system you build.</li>
+            <li><b>Take notes on FigJam</b> as you go: write down what happens on your table&rsquo;s frame, one idea per sticky:
+              <span class="sticky y">questions</span> <span class="sticky r">challenges</span>
+              <span class="sticky g">ideas</span> <span class="sticky b">decisions</span>.
+              They feed the table share at 11:00 and the afternoon discussions.</li>
+          </ul>
+          <p class="share"><a class="btn line small" href="#" data-figjam>Open the FigJam board</a></p>
+        </div>
+      </article>
+
+      <article class="step" id="step-1">
+        <div class="sn">1<svg class="ic" aria-hidden="true"><use href="#i-build"/></svg></div>
+        <div class="sb">
+          <h3>Build from the Paper <span class="who build">agent</span></h3>
+          <p>Send this prompt to your agent, unchanged. It comes from the &ldquo;Revibing Code from Papers&rdquo;
+          method: the agent reads the paper, lists the system&rsquo;s features and interface, builds it (a web app if
+          it can), and writes a README on how to start it.</p>
+          <div class="prompt long"><div class="ph"><span>Send to your agent</span><button class="more" type="button">Show all</button><button class="copy" type="button">Copy</button></div>
+<pre>We are revibing <span class="fill" data-fill="system">[SystemName]</span>.
+
+You will be implementing the <span class="fill" data-fill="system">[SystemName]</span> system. This is based on a paper. The paper's content is split into markdown files and images in the 'paper' directory.
+Proceed in the following steps:
+(1) Analyze the features of the system and user interface (use the paper content and images)
+(2) Create a new implementation of the system that supports all the described features. Create this as a web app if you can, but you can use an alternative approach if the design calls for it (e.g., a Python backend). You may select alternative libraries or languages for implementation that deviate from those used in the paper.
+(3) When you are done, create a DEVELOPER.md that provides a detailed walkthrough of what a developer needs to know and install to run the system. Also, create a README.md that describes how to launch and use the system.
+Additional instructions:
+* You may ask questions if something is unclear but provide alternative choices.
+* If you need access to an API key, you can check for an available .env file. If the key does not exist, you can leave instructions in the .env file. Notify me, and I will fill it out.
+* It is ok to use roughly equivalent APIs (e.g., if the API calls for using a OpenAI model and you only have access to Gemini, you can use that)</pre></div>
+<ul class="dos">
+            <li><b>The agent asks a question?</b> Answer from the paper, or pick the option it suggests.</li>
+            <li><b>While the build runs,</b> read the <a href="#rubric">rubric</a> so you know what you will test.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="step" id="step-2">
+        <div class="sn">2<svg class="ic" aria-hidden="true"><use href="#i-debug"/></svg></div>
+        <div class="sb">
+          <h3>Debug Until It Launches <span class="who you">you, then agent</span></h3>
+          <p>Start the system as <code>revibes/<span class="fill" data-fill="paper">&lt;paper&gt;</span>/app/README.md</code> says. If you see errors, paste them to
+          your agent and ask it to fix them. Repeat until the system runs.</p>
+        </div>
+      </article>
+
+      <article class="step" id="step-3">
+        <div class="sn">3<svg class="ic" aria-hidden="true"><use href="#i-check"/></svg></div>
+        <div class="sb">
+          <h3>Feature Check: Version 1 <span class="who build">agent</span></h3>
+          <p>Ask your agent to check what it built against the paper and add what is missing. You can also try the
+          system yourself and tell the agent which features are missing.</p>
+          <p class="after"><b>Then:</b> restart the system (back to step 2 if it fails). The agent&rsquo;s note on what it built is in <code>revibes/<span class="fill" data-fill="paper">&lt;paper&gt;</span>/changes/v1.md</code>.</p>
+        </div>
+      </article>
+
+      <article class="step" id="step-4">
+        <div class="sn">4<svg class="ic" aria-hidden="true"><use href="#i-grade"/></svg></div>
+        <div class="sb">
+          <h3>Grade Version 1 <span class="who you">you</span></h3>
+          <p>Grade in the <a href="#rubric">rubric</a> below.</p>
+<ul class="dos">
+            <li><b>Grade together.</b> Each of you can open this page on your own laptop with the same table and group. Every grade saves for the whole group.</li>
+            <li><b>Split the work.</b> One person uses the system, the others read the tests and click the grades. A test you cannot try is a failure.</li>
+            <li><b>Write what you saw</b> for anything partial or failed. The agent fixes from those notes in step 5.</li>
+          </ul>
+        </div>
+      </article>
+
+      <article class="step" id="step-5">
+        <div class="sn">5<svg class="ic" aria-hidden="true"><use href="#i-fix"/></svg></div>
+        <div class="sb">
+          <h3>Fix from Grades: Version 2 <span class="who build">agent</span></h3>
+          <p>In the rubric, click <b>Copy for the agent</b> and paste it to your agent. The copy already asks it to fix
+          what you graded partial or failure, using your notes. The first copy also keeps your version 1 score for
+          your table.</p>
+          <p class="after"><b>Then:</b> restart the system and check that it starts. This is version 2.</p>
+        </div>
+      </article>
+
+      <article class="step" id="step-6">
+        <div class="sn">6<svg class="ic" aria-hidden="true"><use href="#i-grade"/></svg></div>
+        <div class="sb">
+          <h3>Update Your Grades <span class="who you">you</span></h3>
+          <p>Try version 2 and change the grades that changed, starting with the tests that were partial or failed.
+          Your table&rsquo;s scores show both your first grades and where you are now.</p>
+
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ===================== the rubric ===================== -->
+  <section class="sec" id="rubric">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Your Rubric</h2>
+        <p>An agent wrote these tests from the paper, and each one shows the section or figure it checks. Every group at
+        your table grades the same tests. Keep one set of grades and update it after each fix.</p>
+      </div>
+    </div>
+    <div class="bar" id="bar">
+      <div class="wrap bar-in">
+        <span class="tally" id="tally"></span>
+        <button class="btn" type="button" id="copy-grades" disabled>Copy for the agent</button>
+      </div>
+    </div>
+    <div class="wrap">
+      <p class="need" id="need" hidden></p>
+      <div id="tests"></div>
+      <div id="tableview" hidden>
+        <h3 class="mt">Your Table</h3>
+        <div class="scores" id="scores"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== share ===================== -->
+  <section class="sec band" id="share">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Share Your Revibe</h2>
+        <p>When you are done, push your revibe as a branch named after your paper and group.</p>
+      </div>
+      <div class="cmd"><pre>git push origin HEAD:revibe/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="group">&lt;group&gt;</span></pre><button class="copy" type="button">Copy</button></div>
+      <p class="body small">This pushes the code, the agent&rsquo;s notes and your grades. Push again whenever you add more.</p>
+    </div>
+  </section>
+
+  <!-- ===================== remix ===================== -->
+  <section class="sec" id="remix">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>After the Revibe: Remixing</h2>
+        <p>Your table remixes the revibe it picked: change it on purpose to test an idea the paper did not.</p>
+      </div>
+      <p class="body">The whole table works on one remix branch, <code>remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span></code>.</p>
+      <ol class="dos num">
+        <li><b>One person starts the branch</b> from the revibe your table picked: put in that revibe&rsquo;s group number.</li>
+      </ol>
+      <div class="cmd"><pre>git fetch origin revibe/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span>-group<span class="fill">&lt;picked group&gt;</span>
+git checkout -b remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span> FETCH_HEAD
+git push origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span></pre><button class="copy" type="button">Copy</button></div>
+      <ol class="dos num" start="2">
+        <li><b>Everyone else joins it.</b></li>
+      </ol>
+      <div class="cmd"><pre>git fetch origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span>
+git checkout -b remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span> FETCH_HEAD</pre><button class="copy" type="button">Copy</button></div>
+      <ol class="dos num" start="3">
+        <li><b>Tell your agent</b> what you are changing and what question it explores. It records this in <code>revibes/<span class="fill" data-fill="paper">&lt;paper&gt;</span>/remixes.md</code>. Agree at the table who changes which part, so you do not edit the same files.</li>
+        <li><b>Share your changes</b> whenever something works. The first line takes in your table&rsquo;s latest changes first.</li>
+      </ol>
+      <div class="cmd"><pre>git pull --rebase origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span>
+git push origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span></pre><button class="copy" type="button">Copy</button></div>
+    </div>
+  </section>
+
+
+  <footer id="contact">
+    <div class="foot">
+      <div class="footmeta">
+        <span>Revibing HCI, a full day workshop at ACM UIST 2026</span>
+        <a href="../">Back to the workshop site</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<script src="hackathon.js"></script>
+<script src="../rubric/rubrics.js"></script>
+<script src="../rubric/rubric.js"></script>
+</body>
+</html>

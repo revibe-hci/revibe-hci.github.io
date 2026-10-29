@@ -1,0 +1,85 @@
+/* The rubric on the hackathon page. Reads the tokens from ../styles.css. */
+
+.page .mark { text-decoration: none; }
+.page .mark:hover { text-decoration: none; color: var(--acc); }
+.nav .btn.line { margin-left: .3rem; padding: .4rem .9rem; font-size: .8125rem; }
+.page .btn.small { padding: .35rem .85rem; font-size: .8125rem; }
+.page code { font-family: var(--mono); font-size: .85em; background: var(--tint); padding: .05em .35em; border-radius: 5px; }
+.page .sec-head { max-width: none; }
+
+.mhead { padding: clamp(1.75rem, 4vw, 3rem) 0 clamp(1.5rem, 3vw, 2.2rem); }
+.mhead .lede { margin-top: 1rem; font-size: clamp(1rem, .95rem + .25vw, 1.1rem); line-height: 1.5; }
+
+/* ---------- who you are ---------- */
+.setup { margin-top: .9rem; display: grid; grid-template-columns: 2fr 1fr 1fr; gap: .8rem 1rem; align-items: end; max-width: 40rem; }
+@media (max-width: 560px) { .setup { grid-template-columns: 1fr 1fr; } .setup label:first-child { grid-column: 1 / -1; } }
+.setup label { display: grid; gap: .3rem; font-family: var(--ui); font-weight: var(--w); font-size: .8125rem; }
+/* The browser's own arrow sits against the edge; draw our own with room around it. */
+.setup select {
+  -webkit-appearance: none; appearance: none;
+  font: inherit; font-weight: 400; font-size: .9375rem; padding: .55rem 2.2rem .55rem .75rem; border-radius: 10px;
+  border: 1px solid var(--rule); color: var(--ink); width: 100%; cursor: pointer;
+  background: var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235E6062' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right .7rem center / 1rem;
+}
+.setup select:hover { border-color: var(--ink); }
+.setup select:focus-visible { outline: 2px solid var(--acc); outline-offset: 1px; }
+.page .share { margin-top: 1rem; display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; }
+.status { font-size: .875rem; color: var(--muted); }
+.status.bad { color: #B3261E; }
+.page .warn { margin-top: 1rem; padding: .7rem 1rem; border-left: 3px solid var(--acc); border-radius: 0 10px 10px 0; background: var(--ground); font-size: .9375rem; color: var(--muted); }
+.warn b { color: var(--ink); font-weight: var(--w); }
+
+/* ---------- the score bar stays in view while grading ---------- */
+.bar { position: sticky; top: 3.1rem; z-index: 5; background: color-mix(in srgb, var(--ground) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--rule); }
+.bar-in { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: .6rem; }
+.tally { font-size: .9375rem; color: var(--muted); }
+.tally b { color: var(--ink); font-weight: var(--w); }
+.page .btn[disabled] { opacity: .45; cursor: default; }
+
+/* ---------- tests: each criterion is its own button, so grading is one click ---------- */
+.page .need { margin: 1.4rem 0; font-size: .9375rem; color: var(--muted); }
+.need b { color: var(--ink); font-weight: var(--w); }
+.group { margin-top: 1.6rem; }
+.group:first-child { margin-top: 0; }
+.group h3 { font-size: 1.05rem; margin-bottom: .5rem; }
+.test { display: grid; gap: .4rem; padding: .7rem .9rem .75rem; margin-top: .5rem; border-radius: 12px; background: var(--surface); border: 1px solid var(--rule); border-left: 4px solid var(--rule); }
+.test.full { border-left-color: #1E8E5A; }
+.test.partial { border-left-color: #C98A0B; }
+.test.failure { border-left-color: #B3261E; }
+.test-head { display: flex; align-items: baseline; gap: .2rem .6rem; flex-wrap: wrap; }
+.test-head .id { font-family: var(--mono); font-size: .75rem; color: var(--muted); }
+.test-head h4 { margin: 0; font-family: var(--ui); font-weight: var(--w); font-size: 1rem; letter-spacing: -.01em; }
+.test-head .ev { margin-left: auto; font-size: .75rem; color: var(--faint); }
+.page .try { font-size: .875rem; }
+.try b { font-weight: var(--w); }
+
+.grade { display: grid; gap: .25rem; }
+.grade button { display: grid; grid-template-columns: 4.2rem 1fr; align-items: baseline; gap: .6rem; text-align: left; font: inherit; font-size: .8125rem; line-height: 1.4;
+  padding: .3rem .6rem; border-radius: 7px; border: 1px solid var(--rule); border-left-width: 4px; background: var(--ground); color: var(--muted); cursor: pointer; }
+.grade button b { font-family: var(--ui); font-weight: var(--w); font-size: .8125rem; }
+.grade button[data-g=full] { border-left-color: #1E8E5A; } .grade button[data-g=full] b { color: #1E8E5A; }
+.grade button[data-g=partial] { border-left-color: #C98A0B; } .grade button[data-g=partial] b { color: #C98A0B; }
+.grade button[data-g=failure] { border-left-color: #B3261E; } .grade button[data-g=failure] b { color: #B3261E; }
+.grade button:hover { color: var(--ink); background: var(--surface); }
+.grade button[aria-pressed=true] { color: #fff; }
+.grade button[aria-pressed=true] b { color: #fff; }
+.grade button[aria-pressed=true][data-g=full] { background: #1E8E5A; border-color: #1E8E5A; }
+.grade button[aria-pressed=true][data-g=partial] { background: #C98A0B; border-color: #C98A0B; }
+.grade button[aria-pressed=true][data-g=failure] { background: #B3261E; border-color: #B3261E; }
+/* once a test is graded, the criteria it did not meet step back */
+.test.full .grade button:not([aria-pressed=true]), .test.partial .grade button:not([aria-pressed=true]),
+.test.failure .grade button:not([aria-pressed=true]) { opacity: .55; }
+
+.seen { font: inherit; font-size: .875rem; width: 100%; min-height: 2.1rem; padding: .35rem .6rem; border-radius: 8px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); resize: none; overflow: hidden; }
+.seen:focus { outline: 2px solid var(--acc); outline-offset: 1px; }
+
+/* ---------- table view ---------- */
+.scores { display: grid; gap: .5rem; }
+.scores table { width: 100%; border-collapse: collapse; font-size: .9375rem; }
+.scores th, .scores td { text-align: left; padding: .55rem .6rem; border-bottom: 1px solid var(--rule); }
+.scores th { font-family: var(--mono); font-size: .6875rem; font-weight: 400; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.scores td.n { font-variant-numeric: tabular-nums; }
+.scores .you td { font-weight: var(--w); }
+.scores .sub { color: var(--muted); font-weight: 400; font-size: .8125rem; }
+
+.page .footmeta a { color: var(--ink); }

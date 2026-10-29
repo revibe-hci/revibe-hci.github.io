@@ -1,0 +1,154 @@
+/* The hackathon page. Reads the tokens from ../styles.css, so it changes with
+   the main page. Only what this page adds is here. */
+
+.page .mark { text-decoration: none; }
+.page .mark:hover { text-decoration: none; color: var(--acc); }
+.nav .btn.line { margin-left: .3rem; padding: .4rem .9rem; font-size: .8125rem; }
+
+.page code { font-family: var(--mono); font-size: .85em; background: var(--tint); padding: .05em .35em; border-radius: 5px; }
+.page h3 { font-size: 1.0625rem; letter-spacing: -.01em; }
+.page .body { margin-top: .7rem; }
+.page .sec-head { max-width: none; }
+.page .small { font-size: .9rem; color: var(--muted); }
+.page .mt { margin-top: 1.8rem; }
+
+/* ---------- head ---------- */
+.mhead { padding: clamp(1.75rem, 4vw, 3rem) 0 clamp(1.5rem, 3vw, 2.2rem); }
+.mhead .lede { margin-top: 1rem; font-size: clamp(1rem, .95rem + .25vw, 1.1rem); line-height: 1.5; }
+/* ---------- set up ---------- */
+.ticks { margin: .6rem 0 0; padding-left: 1.1rem; display: grid; gap: .4rem; }
+.ticks li::marker { color: var(--faint); }
+
+.sessions { margin-top: .9rem; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .8rem; }
+@media (max-width: 620px) { .sessions { grid-template-columns: 1fr; } }
+.session { display: grid; align-content: start; gap: .25rem; padding: .85rem 1rem; border-radius: 14px; background: var(--surface); border: 1px solid var(--rule); }
+.session b { font-family: var(--ui); font-weight: var(--w); }
+.session span { font-size: .875rem; color: var(--muted); line-height: 1.45; }
+
+/* ---------- prompts and commands ---------- */
+.prompt, .cmd { margin-top: .8rem; border: 1px solid var(--rule); border-radius: 12px; background: var(--surface); overflow: hidden; }
+.prompt .ph { display: flex; align-items: center; gap: .6rem; padding: .45rem .55rem .45rem .9rem; border-bottom: 1px solid var(--rule); background: var(--tint); }
+.prompt .ph span { flex: 1; font-family: var(--mono); font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.prompt pre, .cmd pre { margin: 0; padding: .85rem 1rem; font-family: var(--mono); font-size: .8125rem; line-height: 1.6; white-space: pre-wrap; overflow-wrap: anywhere; color: var(--ink); }
+.cmd { display: flex; align-items: flex-start; }
+.cmd pre { flex: 1; }
+.cmd .copy { margin: .5rem .5rem 0 0; }
+.cmd.example { background: var(--tint); border-style: dashed; }
+.page .copy {
+  font-family: var(--ui); font-size: .75rem; font-weight: var(--w); padding: .25rem .7rem; border-radius: var(--pill);
+  border: 1px solid var(--rule); background: var(--surface); color: var(--ink); cursor: pointer; flex: none;
+}
+.page .copy:hover { border-color: var(--ink); }
+.page .copy.done { border-color: var(--acc); color: var(--acc); }
+.fill { border-radius: 4px; padding: 0 .15em; background: color-mix(in srgb, var(--acc) 12%, transparent); color: var(--acc); }
+.mhead .lede.small { margin-top: .8rem; font-size: .9375rem; color: var(--muted); }
+
+/* Prompts sit under the instructions and stay small: long ones show a few lines
+   until "Show all"; Copy always takes the whole prompt. */
+.prompt pre { font-size: .75rem; line-height: 1.55; padding: .65rem .9rem; }
+.prompt.long pre { max-height: 7.8em; overflow: hidden; position: relative;
+  -webkit-mask-image: linear-gradient(#000 60%, transparent); mask-image: linear-gradient(#000 60%, transparent); }
+.prompt.long.open pre { max-height: none; -webkit-mask-image: none; mask-image: none; }
+.page .more { font-family: var(--ui); font-size: .75rem; padding: .25rem .5rem; border: 0; background: none; color: var(--muted); cursor: pointer; }
+.page .more:hover { color: var(--ink); }
+.prompt.ours .ph span::after { content: " \00b7 workshop prompt"; text-transform: none; letter-spacing: 0; }
+
+/* ---------- the procedure at a glance ---------- */
+.glance { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: .5rem; }
+.glance li { display: grid; gap: .35rem; align-content: start; padding: .7rem .6rem .75rem; border-top: 3px solid var(--rule); background: var(--surface); border-radius: 0 0 10px 10px; }
+.glance li.ph0 { border-top-color: var(--faint); }
+.glance li.ph1 { border-top-color: var(--ink); }
+.glance li.ph2, .glance li.ph3 { border-top-color: var(--acc); }
+.glance li.ph4 { border-top-color: var(--faint); }
+.glance .n { font-family: var(--mono); font-size: .75rem; color: var(--muted); }
+.glance b { font-family: var(--ui); font-weight: var(--w); font-size: .875rem; line-height: 1.25; }
+@media (max-width: 980px) { .glance { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+@media (max-width: 520px) { .glance { grid-template-columns: 1fr; } .glance li { grid-template-columns: 1.4rem 1fr; align-items: baseline; border-radius: 0 10px 10px 0; border-top: 0; border-left: 3px solid var(--rule); } .glance li.ph1 { border-left-color: var(--ink); } .glance li.ph2, .glance li.ph3 { border-left-color: var(--acc); } .glance li.ph4 { border-left-color: var(--faint); } .glance li .who { grid-column: 2; } }
+
+.who { display: inline-block; font-family: var(--mono); font-size: .625rem; letter-spacing: .05em; text-transform: uppercase; padding: .12rem .5rem; border-radius: var(--pill); border: 1px solid currentColor; white-space: nowrap; vertical-align: middle; justify-self: start; }
+.who.build { color: var(--acc); }
+.who.rubric { color: var(--muted); }
+.who.you { color: var(--ink); }
+.step h3 .who { margin-left: .5rem; position: relative; top: -.1em; }
+
+/* A rule that matters, set apart from the steps around it. */
+.page .note { margin: 1.4rem 0 0; padding: .8rem 1rem; border-left: 3px solid var(--acc); border-radius: 0 10px 10px 0; background: var(--surface); font-size: .9375rem; color: var(--muted); }
+.note b { color: var(--ink); font-weight: var(--w); }
+.page .sb .note { margin-top: .6rem; }
+
+/* ---------- each step ---------- */
+.step { display: grid; grid-template-columns: 3rem minmax(0, 1fr); gap: 1.2rem; padding: 1.8rem 0; border-top: 1px solid var(--rule); scroll-margin-top: 4rem; }
+.step:first-of-type { margin-top: 1.4rem; }
+.sn { font-family: var(--display); font-weight: var(--display-w); font-size: 2rem; line-height: 1; color: var(--acc); }
+.sb { display: grid; gap: .55rem; align-content: start; min-width: 0; }
+.dos { margin: .5rem 0 0; padding-left: 1.1rem; display: grid; gap: .35rem; font-size: .9375rem; }
+.dos li::marker { color: var(--faint); }
+.dos b, .after b { font-weight: var(--w); }
+/* What to do once the agent has finished a prompt. */
+.page .after { margin-top: .3rem; font-size: .9375rem; color: var(--muted); }
+.after b { color: var(--acc); }
+.sec > .wrap > .dos { margin-top: 0; }
+.dos.num { padding-left: 1.3rem; }
+.dos.num li::marker { color: var(--acc); font-family: var(--mono); font-size: .85em; }
+.sb h4 { margin: 0; font-family: var(--ui); font-weight: var(--w); font-size: 1rem; display: flex; align-items: center; gap: .5rem; }
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem 1.6rem; margin-top: .4rem; }
+.half { display: grid; gap: .45rem; align-content: start; min-width: 0; padding: 1rem 1.1rem 1.1rem; border-radius: 14px; background: var(--surface); border: 1px solid var(--rule); }
+.half > p { font-size: .9375rem; color: var(--muted); }
+.half .prompt { margin-top: .3rem; }
+@media (max-width: 860px) { .pair { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 560px) { .step { grid-template-columns: minmax(0, 1fr); gap: .4rem; } .sn { font-size: 1.5rem; } }
+
+/* ---------- rules and help ---------- */
+.rules { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem 2rem; }
+@media (max-width: 760px) { .rules { grid-template-columns: 1fr; } }
+.rules li { padding-top: .7rem; border-top: 1px solid var(--rule); font-size: .9375rem; color: var(--muted); }
+.rules b { display: block; color: var(--ink); font-family: var(--ui); font-weight: var(--w); margin-bottom: .15rem; }
+
+
+.page .footmeta a { color: var(--ink); }
+
+/* ---------- step icons ---------- */
+.ic { width: 1.25rem; height: 1.25rem; fill: none; stroke: currentColor; stroke-width: 1.75; stroke-linecap: round; stroke-linejoin: round; }
+.glance li { position: relative; }
+.glance .ic { position: absolute; top: .65rem; right: .6rem; color: var(--muted); }
+.glance li.ph2 .ic, .glance li.ph3 .ic { color: var(--acc); }
+.sn .ic { display: block; margin-top: .55rem; width: 1.5rem; height: 1.5rem; color: var(--muted); }
+@media (max-width: 560px) { .sn { display: flex; align-items: center; gap: .5rem; } .sn .ic { margin-top: 0; width: 1.25rem; height: 1.25rem; } }
+
+/* ---------- papers ---------- */
+.papers { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .9rem; }
+@media (max-width: 520px) { .papers { grid-template-columns: 1fr; } }
+.paper { display: grid; align-content: start; gap: .4rem; padding: 1rem 1.1rem 1.1rem; border-radius: 14px; background: var(--ground); border: 1px solid var(--rule); }
+.paper .venue { font-family: var(--mono); font-size: .6875rem; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+.paper h3 { font-size: 1.25rem; }
+.paper .what { font-size: .9375rem; }
+.paper .by { font-size: .8125rem; color: var(--muted); }
+.page .paper .links { display: flex; flex-wrap: wrap; gap: .3rem .8rem; margin-top: .3rem; font-size: .875rem; }
+
+/* ---------- what is in the repository ---------- */
+.repo { list-style: none; margin: .8rem 0 0; padding: 0; display: grid; gap: .1rem; }
+.repo li { display: grid; grid-template-columns: minmax(12rem, 16rem) 1fr; gap: .2rem 1rem; padding: .45rem 0; border-top: 1px solid var(--rule); font-size: .9375rem; }
+.repo li:first-child { border-top: 0; }
+.repo li > span:last-child { color: var(--muted); }
+@media (max-width: 620px) { .repo li { grid-template-columns: 1fr; } }
+
+/* ---------- FigJam sticky colours, as on the board ---------- */
+.sticky { display: inline-block; padding: .05rem .5rem; border-radius: 4px; font-size: .8125rem; color: #1d1d1f; }
+.sticky.y { background: #FFE58A; } .sticky.r { background: #FFB4A8; } .sticky.g { background: #B6EBB0; } .sticky.b { background: #B4D5FF; }
+[data-figjam][hidden] { display: none; }
+
+/* ---------- presenting: the page as slides ---------- */
+html.presenting { overflow: hidden; }
+.deck { position: fixed; inset: 0; z-index: 100; background: var(--ground); overflow: hidden; }
+.deck .stage { position: absolute; left: 50%; width: 60rem; transform-origin: top center; display: grid; gap: .6rem; align-content: start; }
+.deck .stage > .step { border-top: 0; padding: 0; margin: 0; }
+.deck .stage .sec-head { margin-bottom: .4rem; }
+.deck .stage .test { margin-top: .4rem; }
+.deck-bar { position: absolute; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; gap: .8rem; padding: .6rem; font-size: .8125rem; color: var(--muted); }
+.deck-bar button { font: inherit; font-size: 1rem; width: 2.2rem; height: 2.2rem; border-radius: 50%; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); cursor: pointer; }
+.deck-bar .count { font-family: var(--mono); min-width: 4rem; text-align: center; }
+.deck-bar .hint { position: absolute; right: 1.2rem; color: var(--faint); }
+.paper img { display: block; width: 100%; height: 13rem; object-fit: contain; padding: .4rem; background: #fff; border-radius: 8px; border: 1px solid var(--rule); margin-bottom: .3rem; }
+
+.deck .papers { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.deck .paper img { height: 8rem; }

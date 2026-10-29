@@ -891,7 +891,7 @@
      buttons as well as the markup. Anchors within the page are left alone. */
   document.querySelectorAll("a[href]").forEach(function (a) {
     var href = a.getAttribute("href");
-    if (!href || href.charAt(0) === "#") return;
+    if (!href || href.charAt(0) === "#" || a.hasAttribute("data-same-tab")) return;
     a.target = "_blank";
     a.rel = "noopener";
   });
