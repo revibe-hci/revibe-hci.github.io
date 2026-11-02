@@ -14,7 +14,7 @@
 
   /* The workshop's FigJam board. Until it is set, the button is hidden and
      in-text mentions stay plain text. */
-  var FIGJAM_URL = "";
+  var FIGJAM_URL = "https://www.figma.com/board/4L0kKxJOM3GMG2IcJYf9Er/Revibing-HCI-%C2%B7-UIST-2026";
 
   document.querySelectorAll("[data-figjam]").forEach(function (a) {
     if (FIGJAM_URL) { a.href = FIGJAM_URL; return; }
