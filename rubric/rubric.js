@@ -159,6 +159,8 @@
     fetch(url).then(function (r) { return r.json(); }).then(function (res) {
       if (!res.ok || localKey() !== key) return;
       tableRows = res.rows;
+      // the backend keeps four characters of the version, so "first" comes back as "firs"
+      tableRows.forEach(function (row) { if (row.version === "firs") row.version = FIRST; });
       var changed = false;
       res.rows.forEach(function (row) {
         if (row.group !== who.group) return;
