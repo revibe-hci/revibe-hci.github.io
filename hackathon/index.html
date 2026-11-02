@@ -168,6 +168,7 @@
       <h3 class="mt">Get the Workshop Repository</h3>
       <div class="cmd"><pre>git clone --depth 1 <span data-repo>&lt;workshop repository&gt;</span>
 cd uist2026-workshop</pre><button class="copy" type="button">Copy</button></div>
+      <p class="body"><b>Then run the line we post in Slack,</b> inside that folder, on the laptop that runs the agent. It lets you push your work, with no GitHub account needed.</p>
       <ul class="repo">
         <li><span class="path"><code>papers/<span class="fill" data-fill="paper">&lt;paper&gt;</span>/paper/</code></span><span>The paper as Markdown, one file per section, with its figures. This is all your agent builds from.</span></li>
         <li><span class="path"><code>papers/videodiff/materials/</code></span><span>Two short videos with transcripts, for VideoDiff only.</span></li>
@@ -348,7 +349,7 @@ git push origin HEAD:revibe/<span class="fill" data-fill="paper">&lt;paper&gt;</
           <div class="cmd"><pre>git fetch origin revibe/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">table&lt;tablenum&gt;</span>-group<span class="fill">&lt;picked group&gt;</span>
 git checkout -b remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">table&lt;tablenum&gt;</span> FETCH_HEAD
 git push origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">table&lt;tablenum&gt;</span></pre><button class="copy" type="button">Copy</button></div></li>
-        <li><b>Everyone else creates a copy of it</b> on their own laptop.
+        <li><b>Everyone else creates a copy of it</b> on their own laptop. If you have not cloned the repository yet, first follow <a href="#setup">Get the Workshop Repository</a>, including the line from Slack.
           <div class="cmd"><pre>git fetch origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">table&lt;tablenum&gt;</span>
 git checkout -b remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">table&lt;tablenum&gt;</span> FETCH_HEAD</pre><button class="copy" type="button">Copy</button></div></li>
         <li><b>Tell your agent</b> what you are changing and what question it explores. It records this in <code>revibes/<span class="fill" data-fill="paper">&lt;paper&gt;</span>/remixes.md</code>. Agree at the table who changes which part, so you do not edit the same files.</li>
