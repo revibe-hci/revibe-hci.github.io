@@ -40,12 +40,13 @@
     var list = [
       $$(".mhead .wrap > *"),
       $$("#papers .wrap > *"),
+      $$("#groups .wrap > *"),
       part[0], part[1], part[2],
       $$("#steps .sec-head, #steps .glance")
     ];
     $$("#steps .step").forEach(function (el) { list.push([el]); });
     list.push($$("#rubric .sec-head").concat($$("#rubric .test").slice(0, 1)));
-    list.push($$("#share .wrap > *"), $$("#remix .wrap > *"));
+    list.push($$("#share-revibe .wrap > *"), $$("#remix .wrap > *"));
     return list.filter(function (l) { return l.length; });
   }
 

@@ -90,6 +90,10 @@
 .sec > .wrap > .dos { margin-top: 0; }
 .dos.num { padding-left: 1.3rem; }
 .dos.num li::marker { color: var(--acc); font-family: var(--mono); font-size: .85em; }
+/* Numbered steps that hold their own command box: one gap between steps, a
+   smaller one between a step's text and its box. */
+.dos.remix-steps { gap: 1.75rem; font-size: 1rem; }
+.dos.remix-steps .cmd { margin-top: .6rem; }
 .sb h4 { margin: 0; font-family: var(--ui); font-weight: var(--w); font-size: 1rem; display: flex; align-items: center; gap: .5rem; }
 .pair { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem 1.6rem; margin-top: .4rem; }
 .half { display: grid; gap: .45rem; align-content: start; min-width: 0; padding: 1rem 1.1rem 1.1rem; border-radius: 14px; background: var(--surface); border: 1px solid var(--rule); }

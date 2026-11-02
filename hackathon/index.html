@@ -29,10 +29,11 @@
       <a class="mark" href="../">Revibing HCI</a>
       <ul>
         <li><a href="#papers">Papers</a></li>
+        <li><a href="#groups">Groups</a></li>
         <li><a href="#setup">Set Up</a></li>
         <li><a href="#steps">Steps</a></li>
         <li><a href="#rubric">Rubric</a></li>
-        <li><a href="#share">Share</a></li>
+        <li><a href="#share-revibe">Share</a></li>
         <li><a href="#remix">Remixing</a></li>
       </ul>
       <a class="btn line" href="../">Workshop site</a>
@@ -43,7 +44,7 @@
     <div class="wrap">
       <p class="eyebrow">Hackathon &middot; UIST 2026 &middot; 10:00 to 11:00</p>
       <h1>The Revibe Hackathon</h1>
-      <p class="lede">In groups of about three, you rebuild one paper&rsquo;s system with a coding agent, from
+      <p class="lede">In groups of 2 or 3, you rebuild one paper&rsquo;s system with a coding agent, from
       the paper alone. You grade the build against the rubric on this page (version 1), the agent fixes what
       you found, and you grade again (version 2). At 11:00 each table compares its revibes and picks one to
       remix. The method follows the
@@ -55,8 +56,8 @@
   <section class="sec band" id="papers">
     <div class="wrap">
       <div class="sec-head">
-        <h2>Today&rsquo;s Papers</h2>
-        <p>Each table picks one paper, and every group at the table revibes it. The links are for you, not your
+        <h2>First, Choose Your Table&rsquo;s Paper</h2>
+        <p>Each table picks one paper, and every group at the table builds its own revibe of it. The links are for you, not your
         agent: the agent works from the paper alone. Images: Figure 1 of each paper, by its authors.</p>
       </div>
       <div class="papers">
@@ -104,6 +105,23 @@
             <a href="https://johnr0.github.io/assets/publications/CHI2022-TaleBrush.pdf">PDF</a></p>
         </article>
       </div>
+      <p class="note"><b>Wait here.</b> Raise a hand when your table has chosen. We move on together.</p>
+    </div>
+  </section>
+
+  <!-- ===================== groups ===================== -->
+  <section class="sec" id="groups">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Next, Make Your Group</h2>
+        <p>Form a group of 2 or 3 with the people next to you.</p>
+      </div>
+      <ul class="ticks">
+        <li><b>One person has used Claude Code or Codex before.</b> If nobody next to you has, move around the table so every group has someone who has.</li>
+        <li><b>Ideally, that person&rsquo;s laptop has git, Node.js and Python 3.</b> That laptop runs the agent and the system you build.</li>
+        <li><b>Number your groups</b> 1, 2, 3 at your table. You enter the number in the next section.</li>
+      </ul>
+      <p class="note"><b>Wait here.</b> Raise a hand when everyone at your table is in a group. We move on together.</p>
     </div>
   </section>
 
@@ -144,9 +162,7 @@
           <a href="https://developers.openai.com/codex/cli">Codex</a>, installed and signed in.</li>
         <li>Python 3, git and Node.js.</li>
         <li>No API key. When the rebuilt system calls a language model, the call goes through your agent and your plan.</li>
-        <li><b>No plan?</b> Ask an organizer for a Codex credit link ($100, one per person). Open it while signed in
-          to the ChatGPT account you will use, then run <code>codex</code> and sign in with that account. Credits
-          expire 30 days after you redeem them. Please don&rsquo;t share links.</li>
+        <li><b>No plan?</b> Ask an organizer once revibing starts, and we will share Codex credits with you.</li>
       </ul>
 
       <h3 class="mt">Get the Workshop Repository</h3>
@@ -273,7 +289,7 @@ Additional instructions:
           <h3>Update Your Grades <span class="who you">you</span></h3>
           <p>Try version 2 and change the grades that changed, starting with the tests that were partial or failed.
           Your table&rsquo;s scores show both your first grades and where you are now.</p>
-
+          <p class="after"><b>Done before 11:00?</b> Push your revibe (see <a href="#share-revibe">Share Your Revibe</a>), then start brainstorming remix ideas at the bottom of your FigJam frame.</p>
         </div>
       </article>
 
@@ -306,14 +322,17 @@ Additional instructions:
   </section>
 
   <!-- ===================== share ===================== -->
-  <section class="sec band" id="share">
+  <section class="sec band" id="share-revibe">
     <div class="wrap">
       <div class="sec-head">
         <h2>Share Your Revibe</h2>
-        <p>When you are done, push your revibe as a branch named after your paper and group.</p>
+        <p>When you are done, push your revibe as a branch named after your paper, table and group. Commit first: a push leaves out anything you have not committed.</p>
       </div>
-      <div class="cmd"><pre>git push origin HEAD:revibe/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="group">&lt;group&gt;</span></pre><button class="copy" type="button">Copy</button></div>
+      <div class="cmd"><pre>git add revibes/<span class="fill" data-fill="paper">&lt;paper&gt;</span>
+git commit -m "<span class="fill" data-fill="paper">&lt;paper&gt;</span> revibe"
+git push origin HEAD:revibe/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="group">table&lt;tablenum&gt;-group&lt;groupnum&gt;</span></pre><button class="copy" type="button">Copy</button></div>
       <p class="body small">This pushes the code, the agent&rsquo;s notes and your grades. Push again whenever you add more.</p>
+      <p class="note"><b>At 11:00, push what you have and look up.</b> Each table compares its revibes and picks one, with your table&rsquo;s scores from the <a href="#rubric">rubric</a> open. We lead this from the front of the room.</p>
     </div>
   </section>
 
@@ -322,26 +341,21 @@ Additional instructions:
     <div class="wrap">
       <div class="sec-head">
         <h2>After the Revibe: Remixing</h2>
-        <p>Your table remixes the revibe it picked: change it on purpose to test an idea the paper did not.</p>
+        <p>At 11:30, your table remixes the revibe it picked: change it on purpose to test an idea the paper did not. The whole table works on one branch, <code>remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">table&lt;tablenum&gt;</span></code>.</p>
       </div>
-      <p class="body">The whole table works on one remix branch, <code>remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span></code>.</p>
-      <ol class="dos num">
-        <li><b>One person starts the branch</b> from the revibe your table picked: put in that revibe&rsquo;s group number.</li>
-      </ol>
-      <div class="cmd"><pre>git fetch origin revibe/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span>-group<span class="fill">&lt;picked group&gt;</span>
-git checkout -b remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span> FETCH_HEAD
-git push origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span></pre><button class="copy" type="button">Copy</button></div>
-      <ol class="dos num" start="2">
-        <li><b>Everyone else joins it.</b></li>
-      </ol>
-      <div class="cmd"><pre>git fetch origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span>
-git checkout -b remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span> FETCH_HEAD</pre><button class="copy" type="button">Copy</button></div>
-      <ol class="dos num" start="3">
+      <ol class="dos num remix-steps">
+        <li><b>One person creates the branch</b> from the revibe your table picked: put in that revibe&rsquo;s group number.
+          <div class="cmd"><pre>git fetch origin revibe/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">table&lt;tablenum&gt;</span>-group<span class="fill">&lt;picked group&gt;</span>
+git checkout -b remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">table&lt;tablenum&gt;</span> FETCH_HEAD
+git push origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">table&lt;tablenum&gt;</span></pre><button class="copy" type="button">Copy</button></div></li>
+        <li><b>Everyone else creates a copy of it</b> on their own laptop.
+          <div class="cmd"><pre>git fetch origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">table&lt;tablenum&gt;</span>
+git checkout -b remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">table&lt;tablenum&gt;</span> FETCH_HEAD</pre><button class="copy" type="button">Copy</button></div></li>
         <li><b>Tell your agent</b> what you are changing and what question it explores. It records this in <code>revibes/<span class="fill" data-fill="paper">&lt;paper&gt;</span>/remixes.md</code>. Agree at the table who changes which part, so you do not edit the same files.</li>
-        <li><b>Share your changes</b> whenever something works. The first line takes in your table&rsquo;s latest changes first.</li>
+        <li><b>Share your changes</b> whenever something works. The first line takes in your table&rsquo;s latest changes first.
+          <div class="cmd"><pre>git pull --rebase origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">table&lt;tablenum&gt;</span>
+git push origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">table&lt;tablenum&gt;</span></pre><button class="copy" type="button">Copy</button></div></li>
       </ol>
-      <div class="cmd"><pre>git pull --rebase origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span>
-git push origin remix/<span class="fill" data-fill="paper">&lt;paper&gt;</span>-<span class="fill" data-fill="table">&lt;table&gt;</span></pre><button class="copy" type="button">Copy</button></div>
     </div>
   </section>
 
